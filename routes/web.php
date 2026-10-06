@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\Teams\TeamInvitationController;
@@ -17,6 +18,7 @@ Route::prefix('{current_team}')
         Route::resource('products', ProductController::class)->except(['destroy'])->scoped();
         Route::resource('products.variants', ProductVariantController::class)
             ->only(['create', 'store', 'edit', 'update'])->scoped();
+        Route::resource('branches.inventory', InventoryController::class)->only(['index', 'store'])->scoped();
         Route::resource('branches', BranchController::class)
             ->only(['index', 'create', 'store', 'edit', 'update'])
             ->scoped();

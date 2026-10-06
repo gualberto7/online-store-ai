@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import type { Team } from '@/types';
 import { create, edit, index } from '@/routes/branches';
+import { index as inventoryIndex } from '@/routes/branches/inventory';
 
 type Branch = { id: number; name: string; address: string; is_active: boolean };
 
@@ -85,6 +86,20 @@ export default function BranchesIndex({
                                         {branch.address}
                                     </span>
                                 </p>
+                                <Button
+                                    variant="outline"
+                                    className="self-start"
+                                    asChild
+                                >
+                                    <Link
+                                        href={inventoryIndex({
+                                            current_team: currentTeam.slug,
+                                            branch: branch.id,
+                                        })}
+                                    >
+                                        Ver inventario
+                                    </Link>
+                                </Button>
                                 {canManage && (
                                     <Button
                                         variant="outline"
