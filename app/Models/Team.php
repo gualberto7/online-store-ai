@@ -85,6 +85,12 @@ class Team extends Model
         return $this->hasMany(Membership::class);
     }
 
+    /** @return HasMany<Branch, $this> */
+    public function branches(): HasMany
+    {
+        return $this->hasMany(Branch::class);
+    }
+
     /**
      * Get all invitations for this team.
      *

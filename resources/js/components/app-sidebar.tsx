@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import { BookOpen, FolderGit2, LayoutGrid, Store } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -15,10 +15,11 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import type { NavItem } from '@/types';
+import { index as branchesIndex } from '@/routes/branches';
+import type { NavItem, Team } from '@/types';
 
 export function AppSidebar() {
-    const page = usePage();
+    const page = usePage<{ currentTeam: Team | null }>();
     const dashboardUrl = page.props.currentTeam
         ? dashboard(page.props.currentTeam.slug)
         : '/';
@@ -30,6 +31,14 @@ export function AppSidebar() {
             icon: LayoutGrid,
         },
     ];
+
+    if (page.props.currentTeam) {
+        mainNavItems.push({
+            title: 'Sucursales',
+            href: branchesIndex(page.props.currentTeam.slug),
+            icon: Store,
+        });
+    }
 
     const footerNavItems: NavItem[] = [
         {
