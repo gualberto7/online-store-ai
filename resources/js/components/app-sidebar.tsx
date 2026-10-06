@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid, Store } from 'lucide-react';
+import { BookOpen, FolderGit2, LayoutGrid, Package, Store } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { index as branchesIndex } from '@/routes/branches';
+import { index as productsIndex } from '@/routes/products';
 import type { NavItem, Team } from '@/types';
 
 export function AppSidebar() {
@@ -33,6 +34,11 @@ export function AppSidebar() {
     ];
 
     if (page.props.currentTeam) {
+        mainNavItems.push({
+            title: 'Productos',
+            href: productsIndex(page.props.currentTeam.slug),
+            icon: Package,
+        });
         mainNavItems.push({
             title: 'Sucursales',
             href: branchesIndex(page.props.currentTeam.slug),
