@@ -3,6 +3,9 @@
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\OrderCancellationController;
+use App\Http\Controllers\OrderConfirmationController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\Teams\TeamInvitationController;
@@ -15,6 +18,9 @@ Route::prefix('{current_team}')
     ->middleware(['auth', 'verified', EnsureTeamMembership::class])
     ->group(function () {
         Route::get('dashboard', DashboardController::class)->name('dashboard');
+        Route::resource('orders', OrderController::class)->only(['index', 'create', 'store', 'show'])->scoped();
+        Route::post('orders/{order}/confirmation', [OrderConfirmationController::class, 'store'])->name('orders.confirm')->scopeBindings();
+        Route::post('orders/{order}/cancellation', [OrderCancellationController::class, 'store'])->name('orders.cancel')->scopeBindings();
         Route::resource('products', ProductController::class)->except(['destroy'])->scoped();
         Route::resource('products.variants', ProductVariantController::class)
             ->only(['create', 'store', 'edit', 'update'])->scoped();

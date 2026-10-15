@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @property int|null $order_id
  * @property int $id
  * @property int $stock_id
  * @property int|null $user_id

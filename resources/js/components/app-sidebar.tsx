@@ -1,5 +1,12 @@
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid, Package, Store } from 'lucide-react';
+import {
+    BookOpen,
+    FolderGit2,
+    LayoutGrid,
+    Package,
+    ShoppingBag,
+    Store,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -17,6 +24,7 @@ import {
 import { dashboard } from '@/routes';
 import { index as branchesIndex } from '@/routes/branches';
 import { index as productsIndex } from '@/routes/products';
+import { index as ordersIndex } from '@/routes/orders';
 import type { NavItem, Team } from '@/types';
 
 export function AppSidebar() {
@@ -34,6 +42,11 @@ export function AppSidebar() {
     ];
 
     if (page.props.currentTeam) {
+        mainNavItems.push({
+            title: 'Pedidos',
+            href: ordersIndex(page.props.currentTeam.slug),
+            icon: ShoppingBag,
+        });
         mainNavItems.push({
             title: 'Productos',
             href: productsIndex(page.props.currentTeam.slug),
