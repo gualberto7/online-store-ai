@@ -12,6 +12,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
+ * @property int|null $category_id
+ * @property-read Category|null $category
+ * @property-read Collection<int, ProductImage> $images
  * @property int $team_id
  * @property string $name
  * @property string|null $description
@@ -19,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read Team $team
  * @property-read Collection<int, ProductVariant> $variants
  */
-#[Fillable(['name', 'description', 'is_active'])]
+#[Fillable(['name', 'description', 'is_active', 'category_id'])]
 class Product extends Model
 {
     /** @use HasFactory<ProductFactory> */
@@ -29,6 +32,18 @@ class Product extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    /** @return BelongsTo<Category, $this> */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /** @return HasMany<ProductImage, $this> */
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProductImage::class)->orderBy('id');
     }
 
     /** @return HasMany<ProductVariant, $this> */

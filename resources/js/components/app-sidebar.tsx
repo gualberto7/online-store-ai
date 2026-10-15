@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import {
     BookOpen,
+    Tags,
     FolderGit2,
     LayoutGrid,
     Package,
@@ -25,6 +26,7 @@ import { dashboard } from '@/routes';
 import { index as branchesIndex } from '@/routes/branches';
 import { index as productsIndex } from '@/routes/products';
 import { index as ordersIndex } from '@/routes/orders';
+import { index as categoriesIndex } from '@/routes/categories';
 import type { NavItem, Team } from '@/types';
 
 export function AppSidebar() {
@@ -42,6 +44,11 @@ export function AppSidebar() {
     ];
 
     if (page.props.currentTeam) {
+        mainNavItems.push({
+            title: 'Categorías',
+            href: categoriesIndex(page.props.currentTeam.slug),
+            icon: Tags,
+        });
         mainNavItems.push({
             title: 'Pedidos',
             href: ordersIndex(page.props.currentTeam.slug),

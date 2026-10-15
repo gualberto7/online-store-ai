@@ -10,6 +10,8 @@ type Product = {
     name: string;
     is_active: boolean;
     variants_count: number;
+    category: { name: string } | null;
+    images: { id: number; url: string }[];
 };
 type Props = {
     products: { data: Product[]; current_page: number; last_page: number };
@@ -59,6 +61,17 @@ export default function ProductsIndex({ products, canManage }: Props) {
                                 key={product.id}
                                 className="flex flex-col gap-4 rounded-xl border p-5"
                             >
+                                {product.images[0] && (
+                                    <img
+                                        src={product.images[0].url}
+                                        alt={product.name}
+                                        loading="lazy"
+                                        className="aspect-square w-full rounded-lg bg-muted object-contain"
+                                    />
+                                )}
+                                <p className="text-sm text-muted-foreground">
+                                    {product.category?.name ?? 'Sin categoría'}
+                                </p>
                                 <div className="flex items-start justify-between gap-3">
                                     <h2 className="font-semibold wrap-break-word">
                                         {product.name}

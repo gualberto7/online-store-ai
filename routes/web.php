@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OrderCancellationController;
 use App\Http\Controllers\OrderConfirmationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\Teams\TeamInvitationController;
 use App\Http\Middleware\EnsureTeamMembership;
@@ -21,6 +23,8 @@ Route::prefix('{current_team}')
         Route::resource('orders', OrderController::class)->only(['index', 'create', 'store', 'show'])->scoped();
         Route::post('orders/{order}/confirmation', [OrderConfirmationController::class, 'store'])->name('orders.confirm')->scopeBindings();
         Route::post('orders/{order}/cancellation', [OrderCancellationController::class, 'store'])->name('orders.cancel')->scopeBindings();
+        Route::resource('categories', CategoryController::class)->only(['index', 'create', 'store', 'edit', 'update'])->scoped();
+        Route::resource('products.images', ProductImageController::class)->only(['store', 'destroy'])->scoped();
         Route::resource('products', ProductController::class)->except(['destroy'])->scoped();
         Route::resource('products.variants', ProductVariantController::class)
             ->only(['create', 'store', 'edit', 'update'])->scoped();

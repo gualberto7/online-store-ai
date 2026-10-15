@@ -11,9 +11,18 @@ type Product = {
     name: string;
     description: string | null;
     is_active: boolean;
+    category_id: number | null;
 };
 
-export default function ProductForm({ product }: { product?: Product }) {
+type Category = { id: number; name: string; is_active: boolean };
+
+export default function ProductForm({
+    product,
+    categories,
+}: {
+    product?: Product;
+    categories: Category[];
+}) {
     const { currentTeam } = usePage<{ currentTeam: Team | null }>().props;
     if (!currentTeam) return null;
     const title = product ? 'Editar producto' : 'Nuevo producto';
@@ -66,6 +75,30 @@ export default function ProductForm({ product }: { product?: Product }) {
                                     aria-invalid={!!errors.description}
                                 />
                                 <InputError message={errors.description} />
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="category_id">Categoría</Label>
+                                <select
+                                    id="category_id"
+                                    name="category_id"
+                                    defaultValue={product?.category_id ?? ''}
+                                    className="h-9 rounded-md border border-input bg-background px-3 text-sm focus-visible:ring-2 focus-visible:ring-ring"
+                                    aria-invalid={!!errors.category_id}
+                                >
+                                    <option value="">Sin categoría</option>
+                                    {categories.map((category) => (
+                                        <option
+                                            key={category.id}
+                                            value={category.id}
+                                        >
+                                            {category.name}
+                                            {!category.is_active
+                                                ? ' (inactiva)'
+                                                : ''}
+                                        </option>
+                                    ))}
+                                </select>
+                                <InputError message={errors.category_id} />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="is_active">Estado</Label>

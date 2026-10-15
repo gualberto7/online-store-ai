@@ -18,7 +18,8 @@ class ProductController extends Controller
         Gate::authorize('viewAny', [Product::class, $currentTeam]);
 
         return Inertia::render('products/index', [
-            'products' => $currentTeam->products()->select(['id', 'name', 'is_active'])
+            'products' => $currentTeam->products()->select(['id', 'name', 'is_active', 'category_id'])
+                ->with(['category:id,name,is_active', 'images' => fn ($query) => $query->limit(1)])
                 ->withCount('variants')->orderBy('name')->orderBy('id')->paginate(24),
             'canManage' => $request->user()->can('create', [Product::class, $currentTeam]),
         ]);
@@ -28,7 +29,9 @@ class ProductController extends Controller
     {
         Gate::authorize('create', [Product::class, $currentTeam]);
 
-        return Inertia::render('products/form');
+        return Inertia::render('products/form', [
+            'categories' => $currentTeam->categories()->orderBy('name')->get(['id', 'name', 'is_active']),
+        ]);
     }
 
     public function store(SaveProductRequest $request, Team $currentTeam): RedirectResponse
@@ -44,8 +47,12 @@ class ProductController extends Controller
     {
         Gate::authorize('view', $product);
 
+        $product->load(['category:id,name,is_active', 'images']);
+
         return Inertia::render('products/show', [
-            'product' => $product->only(['id', 'name', 'description', 'is_active']),
+            'product' => $product->only(['id', 'name', 'description', 'is_active', 'category_id']),
+            'category' => $product->category,
+            'images' => $product->images,
             'variants' => $product->variants()->orderBy('name')->orderBy('id')
                 ->get(['id', 'name', 'sku', 'price', 'is_active']),
             'canManage' => $request->user()->can('update', $product),
@@ -57,7 +64,8 @@ class ProductController extends Controller
         Gate::authorize('update', $product);
 
         return Inertia::render('products/form', [
-            'product' => $product->only(['id', 'name', 'description', 'is_active']),
+            'categories' => $currentTeam->categories()->orderBy('name')->get(['id', 'name', 'is_active']),
+            'product' => $product->only(['id', 'name', 'description', 'is_active', 'category_id']),
         ]);
     }
 

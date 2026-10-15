@@ -1,4 +1,5 @@
 import { Head, Link, usePage } from '@inertiajs/react';
+import ProductImages from '@/components/product-images';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { edit, index } from '@/routes/products';
@@ -23,9 +24,17 @@ type Props = {
         is_active: boolean;
     }[];
     canManage: boolean;
+    category: { name: string; is_active: boolean } | null;
+    images: { id: number; url: string }[];
 };
 
-export default function ProductShow({ product, variants, canManage }: Props) {
+export default function ProductShow({
+    product,
+    variants,
+    canManage,
+    category,
+    images,
+}: Props) {
     const { currentTeam } = usePage<{ currentTeam: Team | null }>().props;
     if (!currentTeam) return null;
     const args = { current_team: currentTeam.slug, product: product.id };
@@ -56,6 +65,15 @@ export default function ProductShow({ product, variants, canManage }: Props) {
                 <p className="max-w-3xl wrap-break-word whitespace-pre-wrap text-muted-foreground">
                     {product.description || 'Sin descripción.'}
                 </p>
+                <p className="text-sm text-muted-foreground">
+                    Categoría: {category?.name ?? 'Sin categoría'}
+                    {category && !category.is_active ? ' (inactiva)' : ''}
+                </p>
+                <ProductImages
+                    product={{ id: product.id, name: product.name }}
+                    images={images}
+                    canManage={canManage}
+                />
                 <section className="flex flex-col gap-4">
                     <div className="flex flex-wrap items-center justify-between gap-3">
                         <h2 className="text-xl font-semibold">Variantes</h2>

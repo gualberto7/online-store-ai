@@ -91,6 +91,12 @@ class Team extends Model
         return $this->hasMany(Order::class);
     }
 
+    /** @return HasMany<Category, $this> */
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
+
     /** @return HasMany<Product, $this> */
     public function products(): HasMany
     {

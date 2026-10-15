@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Models\Product;
+use App\Models\Team;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SaveProductRequest extends FormRequest
 {
@@ -16,13 +18,17 @@ class SaveProductRequest extends FormRequest
             : $this->user()->can('create', [Product::class, $this->route('current_team')]);
     }
 
-    /** @return array<string, array<int, string>> */
+    /** @return array<string, array<int, mixed>> */
     public function rules(): array
     {
+        $team = $this->route('current_team');
+        abort_unless($team instanceof Team, 404);
+
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:10000'],
             'is_active' => ['required', 'boolean'],
+            'category_id' => ['nullable', 'integer', Rule::exists('categories', 'id')->where('team_id', $team->id)],
         ];
     }
 }
