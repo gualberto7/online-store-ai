@@ -70,6 +70,7 @@ export default function ProductShow({
                     {category && !category.is_active ? ' (inactiva)' : ''}
                 </p>
                 <ProductImages
+                    key={product.id}
                     product={{ id: product.id, name: product.name }}
                     images={images}
                     canManage={canManage}

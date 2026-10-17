@@ -150,6 +150,51 @@ class ProductImageTest extends TestCase
             ->assertInertia(fn (Assert $page) => $page->has('products.data.0.images', 1)->where('products.data.0.images.0.id', $second->id));
     }
 
+    public function test_async_uploads_return_the_new_gallery_image_without_a_redirect(): void
+    {
+        Storage::fake('public');
+        [$user, $product] = $this->product();
+
+        $response = $this->actingAs($user)->postJson(route('products.images.store', [$product->team, $product]), [
+            'image' => UploadedFile::fake()->image('photo.jpg'),
+        ]);
+
+        $image = $product->images()->sole();
+        $response->assertCreated()->assertExactJson(['image' => ['id' => $image->id, 'url' => $image->url]]);
+        Storage::disk('public')->assertExists($image->path);
+    }
+
+    public function test_an_invalid_file_does_not_prevent_the_next_async_upload(): void
+    {
+        Storage::fake('public');
+        [$user, $product] = $this->product();
+        $url = route('products.images.store', [$product->team, $product]);
+
+        $this->actingAs($user)->postJson($url, ['image' => UploadedFile::fake()->image('wide.jpg', 4097, 10)])
+            ->assertUnprocessable()->assertJsonValidationErrors('image');
+        $this->postJson($url, ['image' => UploadedFile::fake()->image('valid.png')])->assertCreated();
+
+        $this->assertDatabaseCount('product_images', 1);
+        Storage::disk('public')->assertExists($product->images()->sole()->path);
+    }
+
+    public function test_async_uploads_enforce_the_gallery_limit_and_clean_up_rejected_files(): void
+    {
+        Storage::fake('public');
+        [$user, $product] = $this->product();
+        for ($index = 0; $index < 9; $index++) {
+            $product->images()->create(['path' => "existing-$index.jpg"]);
+        }
+        $url = route('products.images.store', [$product->team, $product]);
+
+        $this->actingAs($user)->postJson($url, ['image' => UploadedFile::fake()->image('tenth.jpg')])->assertCreated();
+        $this->postJson($url, ['image' => UploadedFile::fake()->image('eleventh.jpg')])
+            ->assertUnprocessable()->assertJsonValidationErrors('image');
+
+        $this->assertDatabaseCount('product_images', 10);
+        $this->assertCount(1, Storage::disk('public')->allFiles());
+    }
+
     /** @return array{User, Product} */
     private function product(TeamRole $role = TeamRole::Admin): array
     {

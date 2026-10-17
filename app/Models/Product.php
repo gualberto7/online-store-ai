@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -50,6 +52,15 @@ class Product extends Model
     public function variants(): HasMany
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    /** @param Builder<Product> $query */
+    #[Scope]
+    protected function publiclyVisible(Builder $query): void
+    {
+        $query->where('is_active', true)
+            ->where(fn ($query) => $query->whereNull('category_id')->orWhereHas('category', fn ($query) => $query->where('is_active', true)))
+            ->whereHas('variants', fn ($query) => $query->where('is_active', true));
     }
 
     /** @return array<string, string> */

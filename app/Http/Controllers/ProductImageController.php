@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProductImagesRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Team;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,7 @@ use Throwable;
 
 class ProductImageController extends Controller
 {
-    public function store(StoreProductImagesRequest $request, Team $currentTeam, Product $product): RedirectResponse
+    public function store(StoreProductImagesRequest $request, Team $currentTeam, Product $product): JsonResponse|RedirectResponse
     {
         $file = $request->file('image');
         abort_unless($file instanceof UploadedFile, 422);
@@ -27,16 +28,21 @@ class ProductImageController extends Controller
         }
 
         try {
-            DB::transaction(function () use ($product, $path): void {
+            $image = DB::transaction(function () use ($product, $path): ProductImage {
                 $product = Product::query()->whereKey($product->id)->lockForUpdate()->firstOrFail();
                 if ($product->images()->count() >= 10) {
                     throw ValidationException::withMessages(['image' => 'Cada producto admite hasta 10 imágenes.']);
                 }
-                $product->images()->create(['path' => $path]);
+
+                return $product->images()->create(['path' => $path]);
             });
         } catch (Throwable $exception) {
             Storage::disk('public')->delete($path);
             throw $exception;
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json(['image' => $image->only(['id', 'url'])], 201);
         }
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Imagen agregada.']);

@@ -22,7 +22,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import { dashboard, home } from '@/routes';
 import { index as branchesIndex } from '@/routes/branches';
 import { index as productsIndex } from '@/routes/products';
 import { index as ordersIndex } from '@/routes/orders';
@@ -67,6 +67,7 @@ export function AppSidebar() {
     }
 
     const footerNavItems: NavItem[] = [
+        { title: 'Ver tienda', href: home(), icon: Store },
         {
             title: 'Repository',
             href: 'https://github.com/laravel/react-starter-kit',
