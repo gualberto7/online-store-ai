@@ -9,6 +9,7 @@ type Props = {
             id: number;
             customer_name: string | null;
             status: string;
+            completed_at: string | null;
             total_cents: number;
             branch: { name: string };
         }[];
@@ -67,7 +68,9 @@ export default function OrdersIndex({ orders, canManage }: Props) {
                                                 : 'secondary'
                                         }
                                     >
-                                        {labels[order.status]}
+                                        {order.completed_at
+                                            ? 'Entregado'
+                                            : labels[order.status]}
                                     </Badge>
                                 </div>
                                 <p className="text-sm">

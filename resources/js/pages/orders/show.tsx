@@ -2,6 +2,7 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import InputError from '@/components/input-error';
+import OrderCompletionDialog from '@/components/order-completion-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -27,6 +28,10 @@ type Props = {
         total_cents: number;
         created_at: string;
         confirmed_at: string | null;
+        completed_at: string | null;
+        completed_by: { name: string } | null;
+        payment_method: 'cash' | 'card' | 'transfer' | null;
+        payment_reference: string | null;
         cancelled_at: string | null;
         cancellation_reason: string | null;
         branch: { name: string };
@@ -85,7 +90,9 @@ export default function OrderShow({ order, canManage }: Props) {
                                 : 'secondary'
                         }
                     >
-                        {labels[order.status]}
+                        {order.completed_at
+                            ? 'Entregado'
+                            : labels[order.status]}
                     </Badge>
                 </div>
                 <div className="grid gap-2">
@@ -130,6 +137,38 @@ export default function OrderShow({ order, canManage }: Props) {
                         </p>
                     )}
                 </div>
+                {order.completed_at ? (
+                    <section className="grid gap-2 rounded-xl border p-4">
+                        <h2 className="font-medium">Pagado y entregado</h2>
+                        <p>
+                            {new Date(order.completed_at).toLocaleString(
+                                'es-BO',
+                            )}{' '}
+                            · {order.completed_by?.name ?? 'Usuario eliminado'}
+                        </p>
+                        <p>
+                            Método:{' '}
+                            {order.payment_method
+                                ? {
+                                      cash: 'Efectivo',
+                                      card: 'Tarjeta',
+                                      transfer: 'Transferencia / QR',
+                                  }[order.payment_method]
+                                : '—'}
+                        </p>
+                        {order.payment_reference && (
+                            <p className="wrap-break-word">
+                                Referencia: {order.payment_reference}
+                            </p>
+                        )}
+                    </section>
+                ) : (
+                    order.status === 'confirmed' && (
+                        <p className="text-sm text-muted-foreground">
+                            Pago pendiente · Pendiente de entrega
+                        </p>
+                    )
+                )}
                 <div className="grid gap-3">
                     {order.items.map((item) => (
                         <article
@@ -156,32 +195,44 @@ export default function OrderShow({ order, canManage }: Props) {
                 </p>
                 <InputError
                     message={
-                        errors.order || errors.quantity || cancelErrors.quantity
+                        errors.order ||
+                        errors.quantity ||
+                        cancelErrors.order ||
+                        cancelErrors.quantity
                     }
                 />
-                {canManage && order.status !== 'cancelled' && (
-                    <div className="flex flex-wrap gap-3">
-                        {order.status === 'draft' && (
+                {canManage &&
+                    order.status !== 'cancelled' &&
+                    !order.completed_at && (
+                        <div className="flex flex-wrap gap-3">
+                            {order.status === 'draft' && (
+                                <Button
+                                    onClick={() => {
+                                        confirmation.clearErrors();
+                                        setDialog('confirm');
+                                    }}
+                                >
+                                    Confirmar venta
+                                </Button>
+                            )}
+                            {order.status === 'confirmed' && (
+                                <OrderCompletionDialog
+                                    teamSlug={currentTeam.slug}
+                                    orderId={order.id}
+                                    total={money(order.total_cents)}
+                                />
+                            )}
                             <Button
+                                variant="destructive"
                                 onClick={() => {
-                                    confirmation.clearErrors();
-                                    setDialog('confirm');
+                                    cancellation.clearErrors();
+                                    setDialog('cancel');
                                 }}
                             >
-                                Confirmar venta
+                                Cancelar pedido
                             </Button>
-                        )}
-                        <Button
-                            variant="destructive"
-                            onClick={() => {
-                                cancellation.clearErrors();
-                                setDialog('cancel');
-                            }}
-                        >
-                            Cancelar pedido
-                        </Button>
-                    </div>
-                )}
+                        </div>
+                    )}
                 <Button variant="outline" className="self-start" asChild>
                     <Link href={index(currentTeam.slug)}>Volver a pedidos</Link>
                 </Button>
@@ -238,7 +289,8 @@ export default function OrderShow({ order, canManage }: Props) {
                                 message={
                                     dialog === 'confirm'
                                         ? errors.order || errors.quantity
-                                        : cancelErrors.quantity
+                                        : cancelErrors.order ||
+                                          cancelErrors.quantity
                                 }
                             />
                             <Button

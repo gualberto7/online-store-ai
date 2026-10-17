@@ -49,7 +49,7 @@ class OrderController extends Controller
     public function show(Request $request, Team $currentTeam, Order $order): Response
     {
         Gate::authorize('view', $order);
-        $order->load(['branch:id,name', 'items', 'user:id,name']);
+        $order->load(['branch:id,name', 'items', 'user:id,name', 'completedBy:id,name']);
 
         return Inertia::render('orders/show', [
             'order' => $order,

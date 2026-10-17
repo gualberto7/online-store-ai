@@ -8,6 +8,7 @@ export default function Receipt({
     order: {
         id: number;
         status: string;
+        completed_at: string | null;
         customer_name: string;
         total_cents: number;
         branch: { name: string; address: string };
@@ -28,7 +29,9 @@ export default function Receipt({
                 <h1 className="text-3xl font-medium">
                     {order.status === 'cancelled'
                         ? 'Pedido cancelado'
-                        : '¡Recibimos tu pedido!'}
+                        : order.completed_at
+                          ? 'Pedido entregado'
+                          : '¡Recibimos tu pedido!'}
                 </h1>
                 <p>
                     Gracias, {order.customer_name}. Tu número de pedido es{' '}
@@ -42,7 +45,9 @@ export default function Receipt({
                     <p className="mt-3 text-sm">
                         {order.status === 'cancelled'
                             ? 'Este pedido fue cancelado.'
-                            : 'Pago pendiente · Paga al retirar tu compra.'}
+                            : order.completed_at
+                              ? 'Pagado y entregado · Gracias por tu compra.'
+                              : 'Pago pendiente · Paga al retirar tu compra.'}
                     </p>
                 </div>
                 {order.items.map((item) => (

@@ -49,6 +49,7 @@ class StorefrontCheckoutController extends Controller
         $order = Order::query()->where('team_id', $cart->team()->id ?? 0)->where('checkout_token', $token)->with(['branch', 'items'])->firstOrFail();
 
         return Inertia::render('storefront/receipt', ['storefront' => ['name' => config('storefront.name')], 'order' => [
+            'completed_at' => $order->completed_at?->toIso8601String(),
             'id' => $order->id, 'status' => $order->status->value, 'customer_name' => $order->customer_name,
             'total_cents' => $order->total_cents, 'branch' => $order->branch->only(['name', 'address']),
             'items' => $order->items->map(fn ($item) => $item->only(['id', 'product_name', 'variant_name', 'quantity', 'unit_price_cents']))]]);

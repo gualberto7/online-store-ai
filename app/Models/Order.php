@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Enums\PaymentMethod;
 use Carbon\CarbonImmutable;
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -26,6 +27,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $customer_email
  * @property string|null $customer_phone
  * @property string|null $checkout_token
+ * @property CarbonImmutable|null $completed_at
+ * @property int|null $completed_by_user_id
+ * @property PaymentMethod|null $payment_method
+ * @property string|null $payment_reference
+ * @property-read User|null $completedBy
  * @property int $total_cents
  * @property-read Team $team
  * @property-read Branch $branch
@@ -55,6 +61,12 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    /** @return BelongsTo<User, $this> */
+    public function completedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'completed_by_user_id');
+    }
+
     /** @return HasMany<OrderItem, $this> */
     public function items(): HasMany
     {
@@ -64,6 +76,6 @@ class Order extends Model
     /** @return array<string, string> */
     protected function casts(): array
     {
-        return ['status' => OrderStatus::class, 'total_cents' => 'integer', 'confirmed_at' => 'immutable_datetime', 'cancelled_at' => 'immutable_datetime'];
+        return ['completed_at' => 'immutable_datetime', 'payment_method' => PaymentMethod::class, 'status' => OrderStatus::class, 'total_cents' => 'integer', 'confirmed_at' => 'immutable_datetime', 'cancelled_at' => 'immutable_datetime'];
     }
 }

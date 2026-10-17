@@ -7,6 +7,7 @@ use App\Models\Branch;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class CancelOrder
 {
@@ -17,6 +18,9 @@ class CancelOrder
         return DB::transaction(function () use ($order, $user, $reason): Order {
             $branch = Branch::query()->whereKey($order->branch_id)->lockForUpdate()->firstOrFail();
             $order = Order::query()->whereKey($order->id)->lockForUpdate()->firstOrFail();
+            if ($order->completed_at !== null) {
+                throw ValidationException::withMessages(['order' => 'Un pedido cobrado y entregado requiere una devolución; no puede cancelarse.']);
+            }
             if ($order->status === OrderStatus::Cancelled) {
                 return $order;
             }
