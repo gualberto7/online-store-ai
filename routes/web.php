@@ -8,6 +8,7 @@ use App\Http\Controllers\OrderCancellationController;
 use App\Http\Controllers\OrderCompletionController;
 use App\Http\Controllers\OrderConfirmationController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderReturnController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductVariantController;
@@ -33,6 +34,7 @@ Route::prefix('{current_team}')
     ->group(function () {
         Route::get('dashboard', DashboardController::class)->name('dashboard');
         Route::resource('orders', OrderController::class)->only(['index', 'create', 'store', 'show'])->scoped();
+        Route::post('orders/{order}/returns', [OrderReturnController::class, 'store'])->name('orders.returns.store')->scopeBindings();
         Route::post('orders/{order}/completion', [OrderCompletionController::class, 'store'])->name('orders.complete')->scopeBindings();
         Route::post('orders/{order}/confirmation', [OrderConfirmationController::class, 'store'])->name('orders.confirm')->scopeBindings();
         Route::post('orders/{order}/cancellation', [OrderCancellationController::class, 'store'])->name('orders.cancel')->scopeBindings();

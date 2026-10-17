@@ -11,6 +11,7 @@ export default function Receipt({
         completed_at: string | null;
         customer_name: string;
         total_cents: number;
+        refunded_cents: number;
         branch: { name: string; address: string };
         items: {
             id: number;
@@ -68,6 +69,11 @@ export default function Receipt({
                     <span>Total</span>
                     <span>{money(order.total_cents)}</span>
                 </div>
+                {order.refunded_cents > 0 && (
+                    <p className="rounded-xl bg-stone-100 p-4 text-sm">
+                        Reintegros registrados: {money(order.refunded_cents)}
+                    </p>
+                )}
                 <p className="text-sm text-stone-500">
                     Guarda tu número de pedido. Este comprobante está disponible
                     en este navegador mientras tu sesión esté activa.

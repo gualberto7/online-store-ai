@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read Team $team
  * @property-read Branch $branch
  * @property-read Collection<int, OrderItem> $items
+ * @property-read Collection<int, OrderReturn> $returns
  */
 #[Fillable(['customer_name', 'notes'])]
 class Order extends Model
@@ -65,6 +66,12 @@ class Order extends Model
     public function completedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'completed_by_user_id');
+    }
+
+    /** @return HasMany<OrderReturn, $this> */
+    public function returns(): HasMany
+    {
+        return $this->hasMany(OrderReturn::class);
     }
 
     /** @return HasMany<OrderItem, $this> */

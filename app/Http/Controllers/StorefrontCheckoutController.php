@@ -50,6 +50,7 @@ class StorefrontCheckoutController extends Controller
 
         return Inertia::render('storefront/receipt', ['storefront' => ['name' => config('storefront.name')], 'order' => [
             'completed_at' => $order->completed_at?->toIso8601String(),
+            'refunded_cents' => (int) $order->returns()->sum('amount_cents'),
             'id' => $order->id, 'status' => $order->status->value, 'customer_name' => $order->customer_name,
             'total_cents' => $order->total_cents, 'branch' => $order->branch->only(['name', 'address']),
             'items' => $order->items->map(fn ($item) => $item->only(['id', 'product_name', 'variant_name', 'quantity', 'unit_price_cents']))]]);

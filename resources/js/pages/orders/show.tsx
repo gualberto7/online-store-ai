@@ -3,6 +3,8 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import InputError from '@/components/input-error';
 import OrderCompletionDialog from '@/components/order-completion-dialog';
+import OrderReturns from '@/components/order-returns';
+import type { OrderReturn } from '@/components/order-returns';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -36,6 +38,7 @@ type Props = {
         cancellation_reason: string | null;
         branch: { name: string };
         user: { name: string } | null;
+        returns: OrderReturn[];
         items: {
             id: number;
             product_name: string;
@@ -193,6 +196,15 @@ export default function OrderShow({ order, canManage }: Props) {
                 <p className="text-2xl font-semibold">
                     Total: {money(order.total_cents)}
                 </p>
+                {order.completed_at && (
+                    <OrderReturns
+                        teamSlug={currentTeam.slug}
+                        orderId={order.id}
+                        items={order.items}
+                        returns={order.returns}
+                        canManage={canManage}
+                    />
+                )}
                 <InputError
                     message={
                         errors.order ||
