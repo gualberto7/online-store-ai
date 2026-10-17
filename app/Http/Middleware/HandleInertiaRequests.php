@@ -40,6 +40,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name' => config('app.name'),
+            'cartCount' => fn () => array_sum($request->session()->get('storefront_cart.'.(int) config('storefront.team_id').'.items', [])),
             'auth' => [
                 'user' => $user,
             ],

@@ -23,6 +23,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property CarbonImmutable|null $confirmed_at
  * @property CarbonImmutable|null $cancelled_at
  * @property string|null $cancellation_reason
+ * @property string|null $customer_email
+ * @property string|null $customer_phone
+ * @property string|null $checkout_token
  * @property int $total_cents
  * @property-read Team $team
  * @property-read Branch $branch

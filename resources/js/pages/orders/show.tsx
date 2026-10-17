@@ -20,6 +20,9 @@ type Props = {
         id: number;
         status: 'draft' | 'confirmed' | 'cancelled';
         customer_name: string | null;
+        customer_email: string | null;
+        customer_phone: string | null;
+        checkout_token: string | null;
         notes: string | null;
         total_cents: number;
         created_at: string;
@@ -91,9 +94,19 @@ export default function OrderShow({ order, canManage }: Props) {
                         Cliente: {order.customer_name || 'Cliente de mostrador'}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                        Creado por {order.user?.name ?? 'Usuario eliminado'} ·{' '}
-                        {new Date(order.created_at).toLocaleString('es-BO')}
+                        Creado por{' '}
+                        {order.checkout_token
+                            ? 'Tienda en línea'
+                            : (order.user?.name ?? 'Usuario eliminado')}{' '}
+                        · {new Date(order.created_at).toLocaleString('es-BO')}
                     </p>
+                    {order.checkout_token && (
+                        <>
+                            <p>Correo: {order.customer_email}</p>
+                            <p>Teléfono: {order.customer_phone}</p>
+                            <p>Retiro en sucursal · Pago al retirar</p>
+                        </>
+                    )}
                     {order.confirmed_at && (
                         <p className="text-sm">
                             Confirmado:{' '}

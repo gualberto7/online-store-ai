@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\StorefrontCart;
 use App\Http\Requests\BrowseStorefrontRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
@@ -13,6 +14,8 @@ use Inertia\Response;
 
 class StorefrontController extends Controller
 {
+    public function __construct(private StorefrontCart $cart) {}
+
     public function index(BrowseStorefrontRequest $request): Response
     {
         $team = $this->storeTeam();
@@ -80,11 +83,6 @@ class StorefrontController extends Controller
 
     private function storeTeam(): ?Team
     {
-        $teamId = filter_var(config('storefront.team_id'), FILTER_VALIDATE_INT);
-        if ($teamId === false) {
-            return null;
-        }
-
-        return Team::query()->whereKey($teamId)->where('is_personal', false)->first();
+        return $this->cart->team();
     }
 }

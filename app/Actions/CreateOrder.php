@@ -14,7 +14,7 @@ use Illuminate\Validation\ValidationException;
 class CreateOrder
 {
     /** @param array{branch_id: int, customer_name?: string|null, notes?: string|null, items: array<int, array{variant_id: int, quantity: int}>} $data */
-    public function handle(Team $team, User $user, array $data): Order
+    public function handle(Team $team, ?User $user, array $data): Order
     {
         return DB::transaction(function () use ($team, $user, $data): Order {
             $branch = Branch::query()->where('team_id', $team->id)->whereKey($data['branch_id'])->lockForUpdate()->firstOrFail();
@@ -25,7 +25,7 @@ class CreateOrder
                 ->whereIn('id', array_column($data['items'], 'variant_id'))->with('product')->orderBy('id')->lockForUpdate()->get()->keyBy('id');
             $order = new Order(['customer_name' => $data['customer_name'] ?? null, 'notes' => $data['notes'] ?? null]);
             $order->branch_id = $branch->id;
-            $order->user_id = $user->id;
+            $order->user_id = $user?->id;
             $order->status = OrderStatus::Draft;
             $order->total_cents = 0;
             $team->orders()->save($order);

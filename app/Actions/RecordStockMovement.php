@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 
 class RecordStockMovement
 {
-    public function handle(Branch $branch, ProductVariant $variant, User $user, string $type, int $quantity, string $reason): StockMovement
+    public function handle(Branch $branch, ProductVariant $variant, ?User $user, string $type, int $quantity, string $reason): StockMovement
     {
         return DB::transaction(function () use ($branch, $variant, $user, $type, $quantity, $reason): StockMovement {
             /** Lock the branch first to serialize creation of previously untracked stock. */
@@ -48,7 +48,7 @@ class RecordStockMovement
             $stock->update(['quantity' => $after]);
 
             return $stock->movements()->create([
-                'user_id' => $user->id,
+                'user_id' => $user?->id,
                 'type' => $type,
                 'quantity_change' => $after - $before,
                 'balance_before' => $before,

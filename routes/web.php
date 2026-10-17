@@ -10,6 +10,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductVariantController;
+use App\Http\Controllers\StorefrontCartController;
+use App\Http\Controllers\StorefrontCheckoutController;
 use App\Http\Controllers\StorefrontController;
 use App\Http\Controllers\Teams\TeamInvitationController;
 use App\Http\Middleware\EnsureTeamMembership;
@@ -17,6 +19,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [StorefrontController::class, 'index'])->name('home');
 Route::get('catalogo/{product}', [StorefrontController::class, 'show'])->name('storefront.show');
+
+Route::get('carrito', [StorefrontCartController::class, 'index'])->name('storefront.cart.index');
+Route::delete('carrito', [StorefrontCartController::class, 'destroy'])->name('storefront.cart.destroy')->block(30, 10);
+Route::put('carrito', [StorefrontCartController::class, 'update'])->name('storefront.cart.update')->block(30, 10);
+Route::get('comprar', [StorefrontCheckoutController::class, 'create'])->name('storefront.checkout.create')->block(30, 10);
+Route::post('comprar', [StorefrontCheckoutController::class, 'store'])->name('storefront.checkout.store')->middleware('throttle:10,1')->block(30, 10);
+Route::get('compra/{token}', [StorefrontCheckoutController::class, 'show'])->whereUuid('token')->name('storefront.checkout.show');
 
 Route::prefix('{current_team}')
     ->middleware(['auth', 'verified', EnsureTeamMembership::class])

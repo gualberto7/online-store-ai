@@ -2,10 +2,12 @@ import { Link, usePage } from '@inertiajs/react';
 import { ArrowUpRight, ShoppingBag } from 'lucide-react';
 import type { PropsWithChildren } from 'react';
 import { dashboard, home, login } from '@/routes';
+import { index as cartIndex } from '@/routes/storefront/cart';
 
 export default function StorefrontLayout({ children }: PropsWithChildren) {
-    const { storefront, auth, currentTeam } = usePage<{
+    const { storefront, auth, currentTeam, cartCount } = usePage<{
         storefront: { name: string };
+        cartCount: number;
     }>().props;
     return (
         <div className="flex min-h-screen flex-col bg-stone-50 text-stone-900 [color-scheme:light]">
@@ -32,6 +34,12 @@ export default function StorefrontLayout({ children }: PropsWithChildren) {
                             className="font-medium underline-offset-4 hover:underline"
                         >
                             Catálogo
+                        </Link>
+                        <Link
+                            href={cartIndex()}
+                            className="font-medium text-teal-900"
+                        >
+                            Carrito ({cartCount})
                         </Link>
                         <Link
                             href={

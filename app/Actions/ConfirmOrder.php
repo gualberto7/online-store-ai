@@ -13,7 +13,7 @@ class ConfirmOrder
 {
     public function __construct(private RecordStockMovement $recordMovement) {}
 
-    public function handle(Order $order, User $user): Order
+    public function handle(Order $order, ?User $user): Order
     {
         return DB::transaction(function () use ($order, $user): Order {
             $branch = Branch::query()->whereKey($order->branch_id)->lockForUpdate()->firstOrFail();

@@ -1,7 +1,9 @@
-import { Head, Link } from '@inertiajs/react';
+import { Form, Head, Link } from '@inertiajs/react';
 import { ArrowLeft, Check, MapPin, Package } from 'lucide-react';
 import { useState } from 'react';
 import { home } from '@/routes';
+import { update } from '@/routes/storefront/cart';
+import { buttonClass, fieldClass } from './cart';
 
 type Props = {
     storefront: { name: string };
@@ -90,6 +92,53 @@ export default function StorefrontShow({
                     )}
                 </section>
                 <section className="flex min-w-0 flex-col gap-6">
+                    {selectedVariant && (
+                        <Form
+                            {...update.form()}
+                            className="order-last grid gap-3"
+                        >
+                            {({ processing, errors }) => (
+                                <>
+                                    <input
+                                        type="hidden"
+                                        name="variant_id"
+                                        value={selectedVariant.id}
+                                    />
+                                    <label htmlFor="cart-quantity">
+                                        Cantidad
+                                    </label>
+                                    <input
+                                        id="cart-quantity"
+                                        name="quantity"
+                                        type="number"
+                                        min="1"
+                                        max="1000"
+                                        defaultValue="1"
+                                        className={fieldClass}
+                                    />
+                                    {errors.quantity && (
+                                        <p
+                                            role="alert"
+                                            className="text-red-700"
+                                        >
+                                            {errors.quantity}
+                                        </p>
+                                    )}
+                                    <button
+                                        className={buttonClass}
+                                        disabled={
+                                            processing ||
+                                            !selectedVariant.available_at.length
+                                        }
+                                    >
+                                        {processing
+                                            ? 'Agregando…'
+                                            : 'Agregar al carrito'}
+                                    </button>
+                                </>
+                            )}
+                        </Form>
+                    )}
                     <div>
                         <p className="mb-3 text-xs tracking-widest text-teal-800 uppercase">
                             {product.category ?? 'Nuestra colección'}
