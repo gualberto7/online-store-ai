@@ -6,6 +6,7 @@ use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\AsVector;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * @property list<float>|null $search_embedding
+ * @property string|null $search_embedding_profile
+ * @property string|null $search_content_hash
+ * @property int $search_version
  * @property int $id
  * @property int|null $category_id
  * @property-read Category|null $category
@@ -27,6 +32,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['name', 'description', 'is_active', 'category_id'])]
 class Product extends Model
 {
+    protected $hidden = ['search_embedding', 'search_embedding_profile', 'search_content_hash', 'search_indexed_at', 'search_version'];
+
     /** @use HasFactory<ProductFactory> */
     use HasFactory;
 
@@ -66,6 +73,6 @@ class Product extends Model
     /** @return array<string, string> */
     protected function casts(): array
     {
-        return ['is_active' => 'boolean'];
+        return ['is_active' => 'boolean', 'search_embedding' => AsVector::class, 'search_version' => 'integer', 'search_indexed_at' => 'immutable_datetime'];
     }
 }

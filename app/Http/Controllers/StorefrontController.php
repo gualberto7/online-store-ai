@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\SearchCatalogSemantically;
 use App\Actions\StorefrontCart;
 use App\Http\Requests\BrowseStorefrontRequest;
 use App\Models\Product;
@@ -16,13 +17,23 @@ class StorefrontController extends Controller
 {
     public function __construct(private StorefrontCart $cart) {}
 
-    public function index(BrowseStorefrontRequest $request): Response
+    public function index(BrowseStorefrontRequest $request, SearchCatalogSemantically $semanticSearch): Response
     {
         $team = $this->storeTeam();
         $search = $request->string('q')->trim()->toString();
         $categoryId = $request->integer('category');
         $branchId = $request->integer('branch');
-        $sort = $request->input('sort') ?: 'name';
+        $semantic = $request->boolean('semantic');
+        $sort = $request->input('sort') ?: ($semantic ? 'relevance' : 'name');
+        $semanticResult = $semantic && $search !== '' && $team !== null
+            ? $semanticSearch->handle($team, $search, $categoryId, $branchId, $request->boolean('available'))
+            : ['ids' => [], 'fallback' => false];
+        $semanticIds = $semanticResult['ids'];
+        if ($semantic && $search !== '') {
+            $exactIds = ProductVariant::query()->where('team_id', $team->id ?? 0)->where('is_active', true)->where('sku', $search)->pluck('product_id')->all();
+            $semanticIds = array_values(array_unique([...$exactIds, ...$semanticIds]));
+        }
+
         $availableVariants = fn ($query) => $query->where('is_active', true)
             ->whereHas('stocks', fn ($query) => $query->where('quantity', '>', 0)
                 ->whereHas('branch', fn ($query) => $query->where('is_active', true))
@@ -36,9 +47,21 @@ class StorefrontController extends Controller
             ->when($categoryId, fn ($query) => $query->where('category_id', $categoryId))
             ->when($search !== '', fn ($query) => $query->where(fn ($query) => $query
                 ->whereLike('name', "%{$search}%")->orWhereLike('description', "%{$search}%")
-                ->orWhereHas('variants', fn ($query) => $query->where('is_active', true)->whereLike('sku', "%{$search}%"))))
+                ->orWhereHas('variants', fn ($query) => $query->where('is_active', true)->whereLike('sku', "%{$search}%"))
+                ->when($semanticIds !== [], fn ($query) => $query->orWhereIn('id', $semanticIds))))
             ->when($request->boolean('available'), fn ($query) => $query->whereHas('variants', $availableVariants))
-            ->orderBy($sort === 'name' ? 'name' : 'starting_price', $sort === 'price_desc' ? 'desc' : 'asc')->orderBy('id')
+            ->when($sort === 'relevance' && $semanticIds !== [], function ($query) use ($semanticIds): void {
+                $cases = [];
+                $bindings = [];
+                foreach ($semanticIds as $rank => $id) {
+                    $cases[] = 'WHEN ? THEN ?';
+                    $bindings[] = $id;
+                    $bindings[] = $rank;
+                }
+                $bindings[] = count($semanticIds);
+                $query->orderByRaw('CASE id '.implode(' ', $cases).' ELSE ? END', $bindings);
+            })
+            ->orderBy(in_array($sort, ['name', 'relevance'], true) ? 'name' : 'starting_price', $sort === 'price_desc' ? 'desc' : 'asc')->orderBy('id')
             ->paginate(12)->withQueryString()
             ->through(fn (Product $product) => [
                 'id' => $product->id, 'name' => $product->name,
@@ -50,10 +73,11 @@ class StorefrontController extends Controller
 
         return Inertia::render('storefront/index', [
             'storefront' => ['name' => config('storefront.name')],
+            'semanticSearch' => ['available' => $semanticSearch->available(), 'fallback' => $semanticResult['fallback']],
             'products' => $products,
             'categories' => $team?->categories()->where('is_active', true)->orderBy('name')->get(['id', 'name']) ?? [],
             'branches' => $team?->branches()->where('is_active', true)->orderBy('name')->get(['id', 'name', 'address']) ?? [],
-            'filters' => ['q' => $search, 'category' => $categoryId ?: '', 'branch' => $branchId ?: '', 'available' => $request->boolean('available'), 'sort' => $sort],
+            'filters' => ['q' => $search, 'category' => $categoryId ?: '', 'branch' => $branchId ?: '', 'available' => $request->boolean('available'), 'sort' => $sort, 'semantic' => $semantic],
         ]);
     }
 

@@ -24,6 +24,7 @@ type Filters = {
     category: number | '';
     branch: number | '';
     available: boolean;
+    semantic: boolean;
     sort: string;
 };
 type Props = {
@@ -37,6 +38,7 @@ type Props = {
     categories: { id: number; name: string }[];
     branches: { id: number; name: string; address: string }[];
     filters: Filters;
+    semanticSearch: { available: boolean; fallback: boolean };
 };
 const money = (value: string) =>
     `${Number(value).toLocaleString('es-BO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Bs`;
@@ -49,6 +51,7 @@ export default function StorefrontIndex({
     categories,
     branches,
     filters,
+    semanticSearch,
 }: Props) {
     const featured = products.data[0];
     const hasFilters =
@@ -56,12 +59,14 @@ export default function StorefrontIndex({
         filters.category ||
         filters.branch ||
         filters.available ||
+        filters.semantic ||
         filters.sort !== 'name';
     function pageLink(page: number) {
         return home({
             query: {
                 ...filters,
                 available: filters.available ? 1 : undefined,
+                semantic: filters.semantic ? 1 : undefined,
                 page,
             },
         });
@@ -210,6 +215,11 @@ export default function StorefrontIndex({
                                     defaultValue={filters.sort}
                                     className={selectClass}
                                 >
+                                    {semanticSearch.available && (
+                                        <option value="relevance">
+                                            Más relevantes
+                                        </option>
+                                    )}
                                     <option value="name">Nombre: A–Z</option>
                                     <option value="price_asc">
                                         Menor precio primero
@@ -251,6 +261,28 @@ export default function StorefrontIndex({
                                     </Button>
                                 </div>
                             </div>
+                            {semanticSearch.available && (
+                                <label className="flex items-center gap-2 text-sm text-stone-700">
+                                    <input
+                                        type="checkbox"
+                                        name="semantic"
+                                        value="1"
+                                        defaultChecked={filters.semantic}
+                                        className="size-4 accent-teal-800"
+                                    />
+                                    Buscar también por significado
+                                </label>
+                            )}
+                            {semanticSearch.fallback && (
+                                <p
+                                    role="status"
+                                    className="text-sm text-stone-500"
+                                >
+                                    La búsqueda por significado no está
+                                    disponible en este momento. Mostramos
+                                    coincidencias por texto.
+                                </p>
+                            )}
                             {Object.values(errors).length > 0 && (
                                 <p
                                     role="alert"

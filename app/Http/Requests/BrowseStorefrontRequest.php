@@ -22,7 +22,8 @@ class BrowseStorefrontRequest extends FormRequest
             'category' => ['nullable', 'integer', Rule::exists('categories', 'id')->where('team_id', $teamId)->where('is_active', true)],
             'branch' => ['nullable', 'integer', Rule::exists('branches', 'id')->where('team_id', $teamId)->where('is_active', true)],
             'available' => ['nullable', 'boolean'],
-            'sort' => ['nullable', Rule::in(['name', 'price_asc', 'price_desc'])],
+            'semantic' => ['nullable', 'boolean'],
+            'sort' => ['nullable', Rule::in(['name', 'relevance', 'price_asc', 'price_desc'])],
             'page' => ['nullable', 'integer', 'min:1', 'max:100000'],
         ];
     }
