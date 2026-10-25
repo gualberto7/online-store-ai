@@ -4,6 +4,8 @@ Tienda en línea desarrollada como un monolito con Laravel, React e Inertia. Inc
 
 El proyecto está orientado a una empresa con varias sucursales. Los equipos (*teams*) permiten organizar miembros y permisos; la tienda pública muestra el catálogo del equipo configurado.
 
+<img width="1381" height="1119" alt="Screenshot 2026-10-25 at 9 48 03 AM" src="https://github.com/user-attachments/assets/19dd3b06-0114-45ef-9ef7-ff0f840d152a" />
+
 ## Funcionalidades
 
 - **Catálogo:** categorías, productos, variantes, códigos SKU, precios en bolivianos y galería de imágenes con carga múltiple mediante arrastrar y soltar.
