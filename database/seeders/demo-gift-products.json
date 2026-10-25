@@ -1,0 +1,1657 @@
+{
+  "source": "https://dummyjson.com/docs/products",
+  "purpose": "Catálogo de demostración, con nombres y descripciones adaptados al español y precios ficticios en Bs.",
+  "license_notice": "DummyJSON - Muhammad Ovi (Owais). The MIT License (MIT). Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the Software), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+  "products": [
+    {
+      "source_id": 1,
+      "name": "Máscara de pestañas Essence Lash Princess",
+      "category": "Maquillaje",
+      "description": "Máscara de pestañas Essence Lash Princess. Un detalle para personas que disfrutan del maquillaje y los accesorios de belleza. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0001-UNI",
+          "name": "Estándar",
+          "price": "69.53"
+        }
+      ]
+    },
+    {
+      "source_id": 2,
+      "name": "Paleta de sombras con espejo",
+      "category": "Maquillaje",
+      "description": "Paleta de sombras con espejo. Un detalle para personas que disfrutan del maquillaje y los accesorios de belleza. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/beauty/eyeshadow-palette-with-mirror/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0002-UNI",
+          "name": "Estándar",
+          "price": "139.13"
+        }
+      ]
+    },
+    {
+      "source_id": 3,
+      "name": "Polvera de maquillaje",
+      "category": "Maquillaje",
+      "description": "Polvera de maquillaje. Un detalle para personas que disfrutan del maquillaje y los accesorios de belleza. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/beauty/powder-canister/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0003-UNI",
+          "name": "Estándar",
+          "price": "104.33"
+        }
+      ]
+    },
+    {
+      "source_id": 4,
+      "name": "Labial rojo",
+      "category": "Maquillaje",
+      "description": "Labial rojo. Un detalle para personas que disfrutan del maquillaje y los accesorios de belleza. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/beauty/red-lipstick/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0004-UNI",
+          "name": "Estándar",
+          "price": "90.41"
+        }
+      ]
+    },
+    {
+      "source_id": 5,
+      "name": "Esmalte de uñas rojo",
+      "category": "Maquillaje",
+      "description": "Esmalte de uñas rojo. Un detalle para personas que disfrutan del maquillaje y los accesorios de belleza. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/beauty/red-nail-polish/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0005-UNI",
+          "name": "Estándar",
+          "price": "62.57"
+        }
+      ]
+    },
+    {
+      "source_id": 6,
+      "name": "Perfume Calvin Klein CK One",
+      "category": "Perfumes",
+      "description": "Perfume Calvin Klein CK One. Una alternativa para regalos de cumpleaños, aniversarios y ocasiones especiales. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0006-UNI",
+          "name": "Estándar",
+          "price": "347.93"
+        }
+      ]
+    },
+    {
+      "source_id": 7,
+      "name": "Perfume Chanel Coco Noir",
+      "category": "Perfumes",
+      "description": "Perfume Chanel Coco Noir. Una alternativa para regalos de cumpleaños, aniversarios y ocasiones especiales. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0007-UNI",
+          "name": "Estándar",
+          "price": "904.73"
+        }
+      ]
+    },
+    {
+      "source_id": 8,
+      "name": "Perfume Dior J’adore",
+      "category": "Perfumes",
+      "description": "Perfume Dior J’adore. Una alternativa para regalos de cumpleaños, aniversarios y ocasiones especiales. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0008-UNI",
+          "name": "Estándar",
+          "price": "626.33"
+        }
+      ]
+    },
+    {
+      "source_id": 9,
+      "name": "Perfume Dolce Shine",
+      "category": "Perfumes",
+      "description": "Perfume Dolce Shine. Una alternativa para regalos de cumpleaños, aniversarios y ocasiones especiales. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/fragrances/dolce-shine-eau-de/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0009-UNI",
+          "name": "Estándar",
+          "price": "487.13"
+        }
+      ]
+    },
+    {
+      "source_id": 10,
+      "name": "Perfume Gucci Bloom",
+      "category": "Perfumes",
+      "description": "Perfume Gucci Bloom. Una alternativa para regalos de cumpleaños, aniversarios y ocasiones especiales. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/fragrances/gucci-bloom-eau-de/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0010-UNI",
+          "name": "Estándar",
+          "price": "556.73"
+        }
+      ]
+    },
+    {
+      "source_id": 43,
+      "name": "Columpio decorativo",
+      "category": "Decoración y regalos",
+      "description": "Columpio decorativo. Un detalle para decorar la casa, el escritorio o regalar en una inauguración de hogar. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/home-decoration/decoration-swing/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0043-UNI",
+          "name": "Estándar",
+          "price": "417.53"
+        }
+      ]
+    },
+    {
+      "source_id": 44,
+      "name": "Portarretratos de árbol familiar",
+      "category": "Decoración y regalos",
+      "description": "Portarretratos de árbol familiar. Un detalle para decorar la casa, el escritorio o regalar en una inauguración de hogar. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/home-decoration/family-tree-photo-frame/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0044-UNI",
+          "name": "Estándar",
+          "price": "208.73"
+        }
+      ]
+    },
+    {
+      "source_id": 45,
+      "name": "Planta ornamental decorativa",
+      "category": "Decoración y regalos",
+      "description": "Planta ornamental decorativa. Un detalle para decorar la casa, el escritorio o regalar en una inauguración de hogar. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/home-decoration/house-showpiece-plant/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0045-UNI",
+          "name": "Estándar",
+          "price": "278.33"
+        }
+      ]
+    },
+    {
+      "source_id": 46,
+      "name": "Maceta decorativa",
+      "category": "Decoración y regalos",
+      "description": "Maceta decorativa. Un detalle para decorar la casa, el escritorio o regalar en una inauguración de hogar. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/home-decoration/plant-pot/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0046-UNI",
+          "name": "Estándar",
+          "price": "104.33"
+        }
+      ]
+    },
+    {
+      "source_id": 47,
+      "name": "Lámpara de mesa",
+      "category": "Decoración y regalos",
+      "description": "Lámpara de mesa. Un detalle para decorar la casa, el escritorio o regalar en una inauguración de hogar. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/home-decoration/table-lamp/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0047-UNI",
+          "name": "Estándar",
+          "price": "347.93"
+        }
+      ]
+    },
+    {
+      "source_id": 49,
+      "name": "Taza de aluminio negra",
+      "category": "Regalos para el hogar",
+      "description": "Taza de aluminio negra. Un detalle práctico para el hogar, para llevar comida o acompañar una pausa de café. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/kitchen-accessories/black-aluminium-cup/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0049-UNI",
+          "name": "Estándar",
+          "price": "41.69"
+        }
+      ]
+    },
+    {
+      "source_id": 65,
+      "name": "Lonchera para llevar comida",
+      "category": "Regalos para el hogar",
+      "description": "Lonchera para llevar comida. Un detalle práctico para el hogar, para llevar comida o acompañar una pausa de café. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/kitchen-accessories/lunch-box/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0065-UNI",
+          "name": "Estándar",
+          "price": "90.41"
+        }
+      ]
+    },
+    {
+      "source_id": 83,
+      "name": "Camisa a cuadros azul y negra",
+      "category": "Camisas y camisetas",
+      "description": "Camisa a cuadros azul y negra. Ropa para combinar en conjuntos casuales y regalar en cumpleaños. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0083-S",
+          "name": "Talla S",
+          "price": "208.73"
+        },
+        {
+          "sku": "DEMO-DJ-0083-M",
+          "name": "Talla M",
+          "price": "208.73"
+        },
+        {
+          "sku": "DEMO-DJ-0083-L",
+          "name": "Talla L",
+          "price": "208.73"
+        }
+      ]
+    },
+    {
+      "source_id": 84,
+      "name": "Camiseta Gigabyte Aorus",
+      "category": "Camisas y camisetas",
+      "description": "Camiseta Gigabyte Aorus. Ropa para combinar en conjuntos casuales y regalar en cumpleaños. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-shirts/gigabyte-aorus-men-tshirt/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0084-S",
+          "name": "Talla S",
+          "price": "173.93"
+        },
+        {
+          "sku": "DEMO-DJ-0084-M",
+          "name": "Talla M",
+          "price": "173.93"
+        },
+        {
+          "sku": "DEMO-DJ-0084-L",
+          "name": "Talla L",
+          "price": "173.93"
+        }
+      ]
+    },
+    {
+      "source_id": 85,
+      "name": "Camisa de cuadros casual",
+      "category": "Camisas y camisetas",
+      "description": "Camisa de cuadros casual. Ropa para combinar en conjuntos casuales y regalar en cumpleaños. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0085-S",
+          "name": "Talla S",
+          "price": "243.53"
+        },
+        {
+          "sku": "DEMO-DJ-0085-M",
+          "name": "Talla M",
+          "price": "243.53"
+        },
+        {
+          "sku": "DEMO-DJ-0085-L",
+          "name": "Talla L",
+          "price": "243.53"
+        }
+      ]
+    },
+    {
+      "source_id": 86,
+      "name": "Camisa de manga corta",
+      "category": "Camisas y camisetas",
+      "description": "Camisa de manga corta. Ropa para combinar en conjuntos casuales y regalar en cumpleaños. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-shirts/man-short-sleeve-shirt/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0086-S",
+          "name": "Talla S",
+          "price": "139.13"
+        },
+        {
+          "sku": "DEMO-DJ-0086-M",
+          "name": "Talla M",
+          "price": "139.13"
+        },
+        {
+          "sku": "DEMO-DJ-0086-L",
+          "name": "Talla L",
+          "price": "139.13"
+        }
+      ]
+    },
+    {
+      "source_id": 87,
+      "name": "Camisa de cuadros para hombre",
+      "category": "Camisas y camisetas",
+      "description": "Camisa de cuadros para hombre. Ropa para combinar en conjuntos casuales y regalar en cumpleaños. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-shirts/men-check-shirt/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0087-S",
+          "name": "Talla S",
+          "price": "194.81"
+        },
+        {
+          "sku": "DEMO-DJ-0087-M",
+          "name": "Talla M",
+          "price": "194.81"
+        },
+        {
+          "sku": "DEMO-DJ-0087-L",
+          "name": "Talla L",
+          "price": "194.81"
+        }
+      ]
+    },
+    {
+      "source_id": 88,
+      "name": "Zapatillas Nike Air Jordan 1 rojas y negras",
+      "category": "Calzado para hombre",
+      "description": "Zapatillas Nike Air Jordan 1 rojas y negras. Calzado para completar conjuntos y regalar a quienes disfrutan del estilo deportivo. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0088-40",
+          "name": "Talla 40",
+          "price": "1043.93"
+        },
+        {
+          "sku": "DEMO-DJ-0088-42",
+          "name": "Talla 42",
+          "price": "1043.93"
+        },
+        {
+          "sku": "DEMO-DJ-0088-44",
+          "name": "Talla 44",
+          "price": "1043.93"
+        }
+      ]
+    },
+    {
+      "source_id": 89,
+      "name": "Zapatillas Nike para béisbol",
+      "category": "Calzado para hombre",
+      "description": "Zapatillas Nike para béisbol. Calzado para completar conjuntos y regalar a quienes disfrutan del estilo deportivo. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-shoes/nike-baseball-cleats/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0089-40",
+          "name": "Talla 40",
+          "price": "556.73"
+        },
+        {
+          "sku": "DEMO-DJ-0089-42",
+          "name": "Talla 42",
+          "price": "556.73"
+        },
+        {
+          "sku": "DEMO-DJ-0089-44",
+          "name": "Talla 44",
+          "price": "556.73"
+        }
+      ]
+    },
+    {
+      "source_id": 90,
+      "name": "Zapatillas Puma Future Rider",
+      "category": "Calzado para hombre",
+      "description": "Zapatillas Puma Future Rider. Calzado para completar conjuntos y regalar a quienes disfrutan del estilo deportivo. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-shoes/puma-future-rider-trainers/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0090-40",
+          "name": "Talla 40",
+          "price": "626.33"
+        },
+        {
+          "sku": "DEMO-DJ-0090-42",
+          "name": "Talla 42",
+          "price": "626.33"
+        },
+        {
+          "sku": "DEMO-DJ-0090-44",
+          "name": "Talla 44",
+          "price": "626.33"
+        }
+      ]
+    },
+    {
+      "source_id": 91,
+      "name": "Zapatillas deportivas blancas y rojas",
+      "category": "Calzado para hombre",
+      "description": "Zapatillas deportivas blancas y rojas. Calzado para completar conjuntos y regalar a quienes disfrutan del estilo deportivo. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-&-red/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0091-40",
+          "name": "Talla 40",
+          "price": "835.13"
+        },
+        {
+          "sku": "DEMO-DJ-0091-42",
+          "name": "Talla 42",
+          "price": "835.13"
+        },
+        {
+          "sku": "DEMO-DJ-0091-44",
+          "name": "Talla 44",
+          "price": "835.13"
+        }
+      ]
+    },
+    {
+      "source_id": 92,
+      "name": "Zapatillas deportivas blanco hueso y rojo",
+      "category": "Calzado para hombre",
+      "description": "Zapatillas deportivas blanco hueso y rojo. Calzado para completar conjuntos y regalar a quienes disfrutan del estilo deportivo. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-red/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0092-40",
+          "name": "Talla 40",
+          "price": "765.53"
+        },
+        {
+          "sku": "DEMO-DJ-0092-42",
+          "name": "Talla 42",
+          "price": "765.53"
+        },
+        {
+          "sku": "DEMO-DJ-0092-44",
+          "name": "Talla 44",
+          "price": "765.53"
+        }
+      ]
+    },
+    {
+      "source_id": 93,
+      "name": "Reloj con correa de cuero marrón",
+      "category": "Relojes para hombre",
+      "description": "Reloj con correa de cuero marrón. Un accesorio para complementar la ropa, para obsequios de aniversario o graduación. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0093-UNI",
+          "name": "Estándar",
+          "price": "626.33"
+        }
+      ]
+    },
+    {
+      "source_id": 94,
+      "name": "Reloj Longines Master Collection",
+      "category": "Relojes para hombre",
+      "description": "Reloj Longines Master Collection. Un accesorio para complementar la ropa, para obsequios de aniversario o graduación. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-watches/longines-master-collection/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0094-UNI",
+          "name": "Estándar",
+          "price": "10439.93"
+        }
+      ]
+    },
+    {
+      "source_id": 95,
+      "name": "Reloj Rolex Cellini de esfera negra",
+      "category": "Relojes para hombre",
+      "description": "Reloj Rolex Cellini de esfera negra. Un accesorio para complementar la ropa, para obsequios de aniversario o graduación. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-date-black-dial/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0095-UNI",
+          "name": "Estándar",
+          "price": "62639.93"
+        }
+      ]
+    },
+    {
+      "source_id": 96,
+      "name": "Reloj Rolex Cellini Moonphase para hombre",
+      "category": "Relojes para hombre",
+      "description": "Reloj Rolex Cellini Moonphase para hombre. Un accesorio para complementar la ropa, para obsequios de aniversario o graduación. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-moonphase/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0096-UNI",
+          "name": "Estándar",
+          "price": "90479.93"
+        }
+      ]
+    },
+    {
+      "source_id": 97,
+      "name": "Reloj Rolex Datejust para hombre",
+      "category": "Relojes para hombre",
+      "description": "Reloj Rolex Datejust para hombre. Un accesorio para complementar la ropa, para obsequios de aniversario o graduación. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-watches/rolex-datejust/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0097-UNI",
+          "name": "Estándar",
+          "price": "76559.93"
+        }
+      ]
+    },
+    {
+      "source_id": 98,
+      "name": "Reloj Rolex Submariner",
+      "category": "Relojes para hombre",
+      "description": "Reloj Rolex Submariner. Un accesorio para complementar la ropa, para obsequios de aniversario o graduación. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mens-watches/rolex-submariner-watch/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0098-UNI",
+          "name": "Estándar",
+          "price": "97439.93"
+        }
+      ]
+    },
+    {
+      "source_id": 99,
+      "name": "Altavoz inteligente Amazon Echo Plus",
+      "category": "Accesorios tecnológicos",
+      "description": "Altavoz inteligente Amazon Echo Plus. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/amazon-echo-plus/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0099-UNI",
+          "name": "Estándar",
+          "price": "695.93"
+        }
+      ]
+    },
+    {
+      "source_id": 100,
+      "name": "Auriculares Apple AirPods",
+      "category": "Accesorios tecnológicos",
+      "description": "Auriculares Apple AirPods. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0100-UNI",
+          "name": "Estándar",
+          "price": "904.73"
+        }
+      ]
+    },
+    {
+      "source_id": 101,
+      "name": "Auriculares Apple AirPods Max plateados",
+      "category": "Accesorios tecnológicos",
+      "description": "Auriculares Apple AirPods Max plateados. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods-max-silver/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0101-UNI",
+          "name": "Estándar",
+          "price": "3827.93"
+        }
+      ]
+    },
+    {
+      "source_id": 102,
+      "name": "Cargador inalámbrico Apple Airpower",
+      "category": "Accesorios tecnológicos",
+      "description": "Cargador inalámbrico Apple Airpower. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpower-wireless-charger/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0102-UNI",
+          "name": "Estándar",
+          "price": "556.73"
+        }
+      ]
+    },
+    {
+      "source_id": 103,
+      "name": "Altavoz Apple HomePod Mini gris",
+      "category": "Accesorios tecnológicos",
+      "description": "Altavoz Apple HomePod Mini gris. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-homepod-mini-cosmic-grey/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0103-UNI",
+          "name": "Estándar",
+          "price": "695.93"
+        }
+      ]
+    },
+    {
+      "source_id": 104,
+      "name": "Cargador para iPhone",
+      "category": "Accesorios tecnológicos",
+      "description": "Cargador para iPhone. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-iphone-charger/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0104-UNI",
+          "name": "Estándar",
+          "price": "139.13"
+        }
+      ]
+    },
+    {
+      "source_id": 105,
+      "name": "Batería Apple MagSafe",
+      "category": "Accesorios tecnológicos",
+      "description": "Batería Apple MagSafe. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-magsafe-battery-pack/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0105-UNI",
+          "name": "Estándar",
+          "price": "695.93"
+        }
+      ]
+    },
+    {
+      "source_id": 106,
+      "name": "Reloj Apple Watch Series 4 dorado",
+      "category": "Accesorios tecnológicos",
+      "description": "Reloj Apple Watch Series 4 dorado. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-watch-series-4-gold/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0106-UNI",
+          "name": "Estándar",
+          "price": "2435.93"
+        }
+      ]
+    },
+    {
+      "source_id": 107,
+      "name": "Auriculares inalámbricos Beats Flex",
+      "category": "Accesorios tecnológicos",
+      "description": "Auriculares inalámbricos Beats Flex. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/beats-flex-wireless-earphones/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0107-UNI",
+          "name": "Estándar",
+          "price": "347.93"
+        }
+      ]
+    },
+    {
+      "source_id": 108,
+      "name": "Funda MagSafe color ciruela para iPhone 12",
+      "category": "Accesorios tecnológicos",
+      "description": "Funda MagSafe color ciruela para iPhone 12. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/iphone-12-silicone-case-with-magsafe-plum/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0108-UNI",
+          "name": "Estándar",
+          "price": "208.73"
+        }
+      ]
+    },
+    {
+      "source_id": 109,
+      "name": "Monopié para fotografía",
+      "category": "Accesorios tecnológicos",
+      "description": "Monopié para fotografía. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/monopod/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0109-UNI",
+          "name": "Estándar",
+          "price": "139.13"
+        }
+      ]
+    },
+    {
+      "source_id": 110,
+      "name": "Lámpara para selfies",
+      "category": "Accesorios tecnológicos",
+      "description": "Lámpara para selfies. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/selfie-lamp-with-iphone/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0110-UNI",
+          "name": "Estándar",
+          "price": "104.33"
+        }
+      ]
+    },
+    {
+      "source_id": 111,
+      "name": "Palo para selfies",
+      "category": "Accesorios tecnológicos",
+      "description": "Palo para selfies. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/selfie-stick-monopod/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0111-UNI",
+          "name": "Estándar",
+          "price": "90.41"
+        }
+      ]
+    },
+    {
+      "source_id": 112,
+      "name": "Soporte para cámara de estudio",
+      "category": "Accesorios tecnológicos",
+      "description": "Soporte para cámara de estudio. Una opción de regalo para aficionados a la tecnología y los dispositivos móviles. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/mobile-accessories/tv-studio-camera-pedestal/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0112-UNI",
+          "name": "Estándar",
+          "price": "3479.93"
+        }
+      ]
+    },
+    {
+      "source_id": 118,
+      "name": "Jabón de manos Attitude Super Leaves",
+      "category": "Cuidado personal",
+      "description": "Jabón de manos Attitude Super Leaves. Un artículo para incluir en un regalo de bienestar y cuidado personal. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/skin-care/attitude-super-leaves-hand-soap/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0118-UNI",
+          "name": "Estándar",
+          "price": "62.57"
+        }
+      ]
+    },
+    {
+      "source_id": 119,
+      "name": "Gel de baño Olay con manteca de karité",
+      "category": "Cuidado personal",
+      "description": "Gel de baño Olay con manteca de karité. Un artículo para incluir en un regalo de bienestar y cuidado personal. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/skin-care/olay-ultra-moisture-shea-butter-body-wash/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0119-UNI",
+          "name": "Estándar",
+          "price": "90.41"
+        }
+      ]
+    },
+    {
+      "source_id": 120,
+      "name": "Loción corporal y facial Vaseline Men",
+      "category": "Cuidado personal",
+      "description": "Loción corporal y facial Vaseline Men. Un artículo para incluir en un regalo de bienestar y cuidado personal. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/skin-care/vaseline-men-body-and-face-lotion/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0120-UNI",
+          "name": "Estándar",
+          "price": "69.53"
+        }
+      ]
+    },
+    {
+      "source_id": 137,
+      "name": "Balón de fútbol americano",
+      "category": "Accesorios deportivos",
+      "description": "Balón de fútbol americano. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/american-football/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0137-UNI",
+          "name": "Estándar",
+          "price": "139.13"
+        }
+      ]
+    },
+    {
+      "source_id": 138,
+      "name": "Pelota de béisbol",
+      "category": "Accesorios deportivos",
+      "description": "Pelota de béisbol. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/baseball-ball/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0138-UNI",
+          "name": "Estándar",
+          "price": "62.57"
+        }
+      ]
+    },
+    {
+      "source_id": 139,
+      "name": "Guante de béisbol",
+      "category": "Accesorios deportivos",
+      "description": "Guante de béisbol. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/baseball-glove/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0139-UNI",
+          "name": "Estándar",
+          "price": "173.93"
+        }
+      ]
+    },
+    {
+      "source_id": 140,
+      "name": "Balón de básquetbol",
+      "category": "Accesorios deportivos",
+      "description": "Balón de básquetbol. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/basketball/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0140-UNI",
+          "name": "Estándar",
+          "price": "104.33"
+        }
+      ]
+    },
+    {
+      "source_id": 141,
+      "name": "Aro de básquetbol",
+      "category": "Accesorios deportivos",
+      "description": "Aro de básquetbol. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/basketball-rim/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0141-UNI",
+          "name": "Estándar",
+          "price": "278.33"
+        }
+      ]
+    },
+    {
+      "source_id": 142,
+      "name": "Pelota de críquet",
+      "category": "Accesorios deportivos",
+      "description": "Pelota de críquet. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-ball/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0142-UNI",
+          "name": "Estándar",
+          "price": "90.41"
+        }
+      ]
+    },
+    {
+      "source_id": 143,
+      "name": "Bate de críquet",
+      "category": "Accesorios deportivos",
+      "description": "Bate de críquet. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-bat/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0143-UNI",
+          "name": "Estándar",
+          "price": "208.73"
+        }
+      ]
+    },
+    {
+      "source_id": 144,
+      "name": "Casco de críquet",
+      "category": "Accesorios deportivos",
+      "description": "Casco de críquet. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-helmet/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0144-UNI",
+          "name": "Estándar",
+          "price": "313.13"
+        }
+      ]
+    },
+    {
+      "source_id": 145,
+      "name": "Set de wickets de críquet",
+      "category": "Accesorios deportivos",
+      "description": "Set de wickets de críquet. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-wicket/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0145-UNI",
+          "name": "Estándar",
+          "price": "208.73"
+        }
+      ]
+    },
+    {
+      "source_id": 146,
+      "name": "Volante de bádminton",
+      "category": "Accesorios deportivos",
+      "description": "Volante de bádminton. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/feather-shuttlecock/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0146-UNI",
+          "name": "Estándar",
+          "price": "41.69"
+        }
+      ]
+    },
+    {
+      "source_id": 147,
+      "name": "Balón de fútbol",
+      "category": "Accesorios deportivos",
+      "description": "Balón de fútbol. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/football/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0147-UNI",
+          "name": "Estándar",
+          "price": "125.21"
+        }
+      ]
+    },
+    {
+      "source_id": 148,
+      "name": "Pelota de golf",
+      "category": "Accesorios deportivos",
+      "description": "Pelota de golf. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/golf-ball/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0148-UNI",
+          "name": "Estándar",
+          "price": "69.53"
+        }
+      ]
+    },
+    {
+      "source_id": 149,
+      "name": "Palo de golf de hierro",
+      "category": "Accesorios deportivos",
+      "description": "Palo de golf de hierro. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/iron-golf/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0149-UNI",
+          "name": "Estándar",
+          "price": "347.93"
+        }
+      ]
+    },
+    {
+      "source_id": 150,
+      "name": "Bate de béisbol metálico",
+      "category": "Accesorios deportivos",
+      "description": "Bate de béisbol metálico. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/metal-baseball-bat/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0150-UNI",
+          "name": "Estándar",
+          "price": "208.73"
+        }
+      ]
+    },
+    {
+      "source_id": 151,
+      "name": "Pelota de tenis",
+      "category": "Accesorios deportivos",
+      "description": "Pelota de tenis. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/tennis-ball/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0151-UNI",
+          "name": "Estándar",
+          "price": "48.65"
+        }
+      ]
+    },
+    {
+      "source_id": 152,
+      "name": "Raqueta de tenis",
+      "category": "Accesorios deportivos",
+      "description": "Raqueta de tenis. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/tennis-racket/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0152-UNI",
+          "name": "Estándar",
+          "price": "347.93"
+        }
+      ]
+    },
+    {
+      "source_id": 153,
+      "name": "Balón de voleibol",
+      "category": "Accesorios deportivos",
+      "description": "Balón de voleibol. Un regalo para personas que disfrutan de practicar deporte y actividades recreativas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sports-accessories/volleyball/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0153-UNI",
+          "name": "Estándar",
+          "price": "83.45"
+        }
+      ]
+    },
+    {
+      "source_id": 154,
+      "name": "Gafas de sol negras",
+      "category": "Gafas y accesorios",
+      "description": "Gafas de sol negras. Un accesorio para combinar con ropa casual y preparar regalos de verano. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sunglasses/black-sun-glasses/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0154-UNI",
+          "name": "Estándar",
+          "price": "208.73"
+        }
+      ]
+    },
+    {
+      "source_id": 155,
+      "name": "Gafas de sol clásicas",
+      "category": "Gafas y accesorios",
+      "description": "Gafas de sol clásicas. Un accesorio para combinar con ropa casual y preparar regalos de verano. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sunglasses/classic-sun-glasses/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0155-UNI",
+          "name": "Estándar",
+          "price": "173.93"
+        }
+      ]
+    },
+    {
+      "source_id": 156,
+      "name": "Gafas verdes y negras",
+      "category": "Gafas y accesorios",
+      "description": "Gafas verdes y negras. Un accesorio para combinar con ropa casual y preparar regalos de verano. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sunglasses/green-and-black-glasses/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0156-UNI",
+          "name": "Estándar",
+          "price": "243.53"
+        }
+      ]
+    },
+    {
+      "source_id": 157,
+      "name": "Gafas para fiestas",
+      "category": "Gafas y accesorios",
+      "description": "Gafas para fiestas. Un accesorio para combinar con ropa casual y preparar regalos de verano. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sunglasses/party-glasses/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0157-UNI",
+          "name": "Estándar",
+          "price": "139.13"
+        }
+      ]
+    },
+    {
+      "source_id": 158,
+      "name": "Gafas de sol casuales",
+      "category": "Gafas y accesorios",
+      "description": "Gafas de sol casuales. Un accesorio para combinar con ropa casual y preparar regalos de verano. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/sunglasses/sunglasses/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0158-UNI",
+          "name": "Estándar",
+          "price": "160.01"
+        }
+      ]
+    },
+    {
+      "source_id": 162,
+      "name": "Vestido azul casual",
+      "category": "Ropa casual",
+      "description": "Vestido azul casual. Ropa para ocasiones informales y regalos de cumpleaños. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/tops/blue-frock/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0162-S",
+          "name": "Talla S",
+          "price": "208.73"
+        },
+        {
+          "sku": "DEMO-DJ-0162-M",
+          "name": "Talla M",
+          "price": "208.73"
+        },
+        {
+          "sku": "DEMO-DJ-0162-L",
+          "name": "Talla L",
+          "price": "208.73"
+        }
+      ]
+    },
+    {
+      "source_id": 163,
+      "name": "Vestido de verano",
+      "category": "Ropa casual",
+      "description": "Vestido de verano. Ropa para ocasiones informales y regalos de cumpleaños. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/tops/girl-summer-dress/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0163-S",
+          "name": "Talla S",
+          "price": "139.13"
+        },
+        {
+          "sku": "DEMO-DJ-0163-M",
+          "name": "Talla M",
+          "price": "139.13"
+        },
+        {
+          "sku": "DEMO-DJ-0163-L",
+          "name": "Talla L",
+          "price": "139.13"
+        }
+      ]
+    },
+    {
+      "source_id": 164,
+      "name": "Vestido gris",
+      "category": "Ropa casual",
+      "description": "Vestido gris. Ropa para ocasiones informales y regalos de cumpleaños. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/tops/gray-dress/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0164-S",
+          "name": "Talla S",
+          "price": "243.53"
+        },
+        {
+          "sku": "DEMO-DJ-0164-M",
+          "name": "Talla M",
+          "price": "243.53"
+        },
+        {
+          "sku": "DEMO-DJ-0164-L",
+          "name": "Talla L",
+          "price": "243.53"
+        }
+      ]
+    },
+    {
+      "source_id": 165,
+      "name": "Vestido corto",
+      "category": "Ropa casual",
+      "description": "Vestido corto. Ropa para ocasiones informales y regalos de cumpleaños. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/tops/short-frock/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0165-S",
+          "name": "Talla S",
+          "price": "173.93"
+        },
+        {
+          "sku": "DEMO-DJ-0165-M",
+          "name": "Talla M",
+          "price": "173.93"
+        },
+        {
+          "sku": "DEMO-DJ-0165-L",
+          "name": "Talla L",
+          "price": "173.93"
+        }
+      ]
+    },
+    {
+      "source_id": 166,
+      "name": "Vestido de cuadros tartán",
+      "category": "Ropa casual",
+      "description": "Vestido de cuadros tartán. Ropa para ocasiones informales y regalos de cumpleaños. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/tops/tartan-dress/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0166-S",
+          "name": "Talla S",
+          "price": "278.33"
+        },
+        {
+          "sku": "DEMO-DJ-0166-M",
+          "name": "Talla M",
+          "price": "278.33"
+        },
+        {
+          "sku": "DEMO-DJ-0166-L",
+          "name": "Talla L",
+          "price": "278.33"
+        }
+      ]
+    },
+    {
+      "source_id": 172,
+      "name": "Bolso de mano azul",
+      "category": "Bolsos y mochilas",
+      "description": "Bolso de mano azul. Un accesorio para llevar objetos personales y completar conjuntos de ropa. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-bags/blue-women's-handbag/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0172-UNI",
+          "name": "Estándar",
+          "price": "347.93"
+        }
+      ]
+    },
+    {
+      "source_id": 173,
+      "name": "Bolso de cuero Heshe",
+      "category": "Bolsos y mochilas",
+      "description": "Bolso de cuero Heshe. Un accesorio para llevar objetos personales y completar conjuntos de ropa. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-bags/heshe-women's-leather-bag/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0173-UNI",
+          "name": "Estándar",
+          "price": "904.73"
+        }
+      ]
+    },
+    {
+      "source_id": 174,
+      "name": "Bolso Prada",
+      "category": "Bolsos y mochilas",
+      "description": "Bolso Prada. Un accesorio para llevar objetos personales y completar conjuntos de ropa. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-bags/prada-women-bag/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0174-UNI",
+          "name": "Estándar",
+          "price": "4175.93"
+        }
+      ]
+    },
+    {
+      "source_id": 175,
+      "name": "Mochila blanca de cuero sintético",
+      "category": "Bolsos y mochilas",
+      "description": "Mochila blanca de cuero sintético. Un accesorio para llevar objetos personales y completar conjuntos de ropa. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-bags/white-faux-leather-backpack/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0175-UNI",
+          "name": "Estándar",
+          "price": "278.33"
+        }
+      ]
+    },
+    {
+      "source_id": 176,
+      "name": "Bolso de mano negro",
+      "category": "Bolsos y mochilas",
+      "description": "Bolso de mano negro. Un accesorio para llevar objetos personales y completar conjuntos de ropa. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-bags/women-handbag-black/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0176-UNI",
+          "name": "Estándar",
+          "price": "417.53"
+        }
+      ]
+    },
+    {
+      "source_id": 177,
+      "name": "Vestido de gala negro",
+      "category": "Vestidos y conjuntos",
+      "description": "Vestido de gala negro. Ropa para armar conjuntos y elegir un regalo para una ocasión especial. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-dresses/black-women's-gown/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0177-S",
+          "name": "Talla S",
+          "price": "904.73"
+        },
+        {
+          "sku": "DEMO-DJ-0177-M",
+          "name": "Talla M",
+          "price": "904.73"
+        },
+        {
+          "sku": "DEMO-DJ-0177-L",
+          "name": "Talla L",
+          "price": "904.73"
+        }
+      ]
+    },
+    {
+      "source_id": 178,
+      "name": "Corsé de cuero con falda",
+      "category": "Vestidos y conjuntos",
+      "description": "Corsé de cuero con falda. Ropa para armar conjuntos y elegir un regalo para una ocasión especial. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-dresses/corset-leather-with-skirt/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0178-S",
+          "name": "Talla S",
+          "price": "626.33"
+        },
+        {
+          "sku": "DEMO-DJ-0178-M",
+          "name": "Talla M",
+          "price": "626.33"
+        },
+        {
+          "sku": "DEMO-DJ-0178-L",
+          "name": "Talla L",
+          "price": "626.33"
+        }
+      ]
+    },
+    {
+      "source_id": 179,
+      "name": "Corsé con falda negra",
+      "category": "Vestidos y conjuntos",
+      "description": "Corsé con falda negra. Ropa para armar conjuntos y elegir un regalo para una ocasión especial. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-dresses/corset-with-black-skirt/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0179-S",
+          "name": "Talla S",
+          "price": "556.73"
+        },
+        {
+          "sku": "DEMO-DJ-0179-M",
+          "name": "Talla M",
+          "price": "556.73"
+        },
+        {
+          "sku": "DEMO-DJ-0179-L",
+          "name": "Talla L",
+          "price": "556.73"
+        }
+      ]
+    },
+    {
+      "source_id": 180,
+      "name": "Vestido Pea",
+      "category": "Vestidos y conjuntos",
+      "description": "Vestido Pea. Ropa para armar conjuntos y elegir un regalo para una ocasión especial. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-dresses/dress-pea/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0180-S",
+          "name": "Talla S",
+          "price": "347.93"
+        },
+        {
+          "sku": "DEMO-DJ-0180-M",
+          "name": "Talla M",
+          "price": "347.93"
+        },
+        {
+          "sku": "DEMO-DJ-0180-L",
+          "name": "Talla L",
+          "price": "347.93"
+        }
+      ]
+    },
+    {
+      "source_id": 181,
+      "name": "Conjunto Marni rojo y negro",
+      "category": "Vestidos y conjuntos",
+      "description": "Conjunto Marni rojo y negro. Ropa para armar conjuntos y elegir un regalo para una ocasión especial. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-dresses/marni-red-&-black-suit/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0181-S",
+          "name": "Talla S",
+          "price": "1252.73"
+        },
+        {
+          "sku": "DEMO-DJ-0181-M",
+          "name": "Talla M",
+          "price": "1252.73"
+        },
+        {
+          "sku": "DEMO-DJ-0181-L",
+          "name": "Talla L",
+          "price": "1252.73"
+        }
+      ]
+    },
+    {
+      "source_id": 182,
+      "name": "Pendientes de cristal verde",
+      "category": "Joyería y bisutería",
+      "description": "Pendientes de cristal verde. Un pequeño detalle para aniversarios, cumpleaños y regalos para alguien especial. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-jewellery/green-crystal-earring/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0182-UNI",
+          "name": "Estándar",
+          "price": "208.73"
+        }
+      ]
+    },
+    {
+      "source_id": 183,
+      "name": "Pendientes ovalados verdes",
+      "category": "Joyería y bisutería",
+      "description": "Pendientes ovalados verdes. Un pequeño detalle para aniversarios, cumpleaños y regalos para alguien especial. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-jewellery/green-oval-earring/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0183-UNI",
+          "name": "Estándar",
+          "price": "173.93"
+        }
+      ]
+    },
+    {
+      "source_id": 184,
+      "name": "Pendientes tropicales",
+      "category": "Joyería y bisutería",
+      "description": "Pendientes tropicales. Un pequeño detalle para aniversarios, cumpleaños y regalos para alguien especial. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-jewellery/tropical-earring/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0184-UNI",
+          "name": "Estándar",
+          "price": "139.13"
+        }
+      ]
+    },
+    {
+      "source_id": 185,
+      "name": "Sandalias negras y marrones",
+      "category": "Calzado para mujer",
+      "description": "Sandalias negras y marrones. Calzado para complementar conjuntos y elegir un regalo de moda. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-shoes/black-&-brown-slipper/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0185-36",
+          "name": "Talla 36",
+          "price": "139.13"
+        },
+        {
+          "sku": "DEMO-DJ-0185-38",
+          "name": "Talla 38",
+          "price": "139.13"
+        },
+        {
+          "sku": "DEMO-DJ-0185-40",
+          "name": "Talla 40",
+          "price": "139.13"
+        }
+      ]
+    },
+    {
+      "source_id": 186,
+      "name": "Zapatos de tacón Calvin Klein",
+      "category": "Calzado para mujer",
+      "description": "Zapatos de tacón Calvin Klein. Calzado para complementar conjuntos y elegir un regalo de moda. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-shoes/calvin-klein-heel-shoes/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0186-36",
+          "name": "Talla 36",
+          "price": "556.73"
+        },
+        {
+          "sku": "DEMO-DJ-0186-38",
+          "name": "Talla 38",
+          "price": "556.73"
+        },
+        {
+          "sku": "DEMO-DJ-0186-40",
+          "name": "Talla 40",
+          "price": "556.73"
+        }
+      ]
+    },
+    {
+      "source_id": 187,
+      "name": "Zapatos dorados",
+      "category": "Calzado para mujer",
+      "description": "Zapatos dorados. Calzado para complementar conjuntos y elegir un regalo de moda. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-shoes/golden-shoes-woman/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0187-36",
+          "name": "Talla 36",
+          "price": "347.93"
+        },
+        {
+          "sku": "DEMO-DJ-0187-38",
+          "name": "Talla 38",
+          "price": "347.93"
+        },
+        {
+          "sku": "DEMO-DJ-0187-40",
+          "name": "Talla 40",
+          "price": "347.93"
+        }
+      ]
+    },
+    {
+      "source_id": 188,
+      "name": "Zapatos Pampi",
+      "category": "Calzado para mujer",
+      "description": "Zapatos Pampi. Calzado para complementar conjuntos y elegir un regalo de moda. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-shoes/pampi-shoes/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0188-36",
+          "name": "Talla 36",
+          "price": "208.73"
+        },
+        {
+          "sku": "DEMO-DJ-0188-38",
+          "name": "Talla 38",
+          "price": "208.73"
+        },
+        {
+          "sku": "DEMO-DJ-0188-40",
+          "name": "Talla 40",
+          "price": "208.73"
+        }
+      ]
+    },
+    {
+      "source_id": 189,
+      "name": "Zapatos rojos",
+      "category": "Calzado para mujer",
+      "description": "Zapatos rojos. Calzado para complementar conjuntos y elegir un regalo de moda. Disponible en distintas tallas. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-shoes/red-shoes/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0189-36",
+          "name": "Talla 36",
+          "price": "243.53"
+        },
+        {
+          "sku": "DEMO-DJ-0189-38",
+          "name": "Talla 38",
+          "price": "243.53"
+        },
+        {
+          "sku": "DEMO-DJ-0189-40",
+          "name": "Talla 40",
+          "price": "243.53"
+        }
+      ]
+    },
+    {
+      "source_id": 190,
+      "name": "Reloj IWC Ingenieur de acero",
+      "category": "Relojes para mujer",
+      "description": "Reloj IWC Ingenieur de acero. Un accesorio de moda para regalar en aniversarios, graduaciones o cumpleaños. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-watches/iwc-ingenieur-automatic-steel/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0190-UNI",
+          "name": "Estándar",
+          "price": "34799.93"
+        }
+      ]
+    },
+    {
+      "source_id": 191,
+      "name": "Reloj Rolex Cellini Moonphase para mujer",
+      "category": "Relojes para mujer",
+      "description": "Reloj Rolex Cellini Moonphase para mujer. Un accesorio de moda para regalar en aniversarios, graduaciones o cumpleaños. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-watches/rolex-cellini-moonphase/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0191-UNI",
+          "name": "Estándar",
+          "price": "111359.93"
+        }
+      ]
+    },
+    {
+      "source_id": 192,
+      "name": "Reloj Rolex Datejust para mujer",
+      "category": "Relojes para mujer",
+      "description": "Reloj Rolex Datejust para mujer. Un accesorio de moda para regalar en aniversarios, graduaciones o cumpleaños. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-watches/rolex-datejust-women/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0192-UNI",
+          "name": "Estándar",
+          "price": "76559.93"
+        }
+      ]
+    },
+    {
+      "source_id": 193,
+      "name": "Reloj dorado para mujer",
+      "category": "Relojes para mujer",
+      "description": "Reloj dorado para mujer. Un accesorio de moda para regalar en aniversarios, graduaciones o cumpleaños. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-watches/watch-gold-for-women/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0193-UNI",
+          "name": "Estándar",
+          "price": "5567.93"
+        }
+      ]
+    },
+    {
+      "source_id": 194,
+      "name": "Reloj de pulsera para mujer",
+      "category": "Relojes para mujer",
+      "description": "Reloj de pulsera para mujer. Un accesorio de moda para regalar en aniversarios, graduaciones o cumpleaños. Datos de demostración; precio de ejemplo en bolivianos.",
+      "image_url": "https://cdn.dummyjson.com/product-images/womens-watches/women's-wrist-watch/1.webp",
+      "variants": [
+        {
+          "sku": "DEMO-DJ-0194-UNI",
+          "name": "Estándar",
+          "price": "904.73"
+        }
+      ]
+    }
+  ]
+}
