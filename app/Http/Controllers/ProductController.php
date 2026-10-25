@@ -50,7 +50,7 @@ class ProductController extends Controller
         $product->load(['category:id,name,is_active', 'images']);
 
         return Inertia::render('products/show', [
-            'product' => $product->only(['id', 'name', 'description', 'is_active', 'category_id']),
+            'product' => $product->only(['id', 'name', 'description', 'is_active', 'category_id', 'audience']),
             'category' => $product->category,
             'images' => $product->images,
             'variants' => $product->variants()->orderBy('name')->orderBy('id')
@@ -65,7 +65,7 @@ class ProductController extends Controller
 
         return Inertia::render('products/form', [
             'categories' => $currentTeam->categories()->orderBy('name')->get(['id', 'name', 'is_active']),
-            'product' => $product->only(['id', 'name', 'description', 'is_active', 'category_id']),
+            'product' => $product->only(['id', 'name', 'description', 'is_active', 'category_id', 'audience']),
         ]);
     }
 

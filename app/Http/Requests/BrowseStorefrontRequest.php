@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ProductAudience;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -18,6 +19,7 @@ class BrowseStorefrontRequest extends FormRequest
         $teamId = config('storefront.team_id');
 
         return [
+            'audience' => ['nullable', Rule::enum(ProductAudience::class)],
             'q' => ['nullable', 'string', 'max:120'],
             'category' => ['nullable', 'integer', Rule::exists('categories', 'id')->where('team_id', $teamId)->where('is_active', true)],
             'branch' => ['nullable', 'integer', Rule::exists('branches', 'id')->where('team_id', $teamId)->where('is_active', true)],

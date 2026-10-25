@@ -20,7 +20,7 @@ class IndexProductEmbedding
             return false;
         }
         $text = mb_substr(implode("\n", array_filter([
-            'Producto: '.$product->name, $product->description, $product->category ? 'Categoría: '.$product->category->name : null,
+            'Producto: '.$product->name, 'Público: '.$product->audience->label(), $product->description, $product->category ? 'Categoría: '.$product->category->name : null,
             'Variantes: '.$product->variants->map(fn ($variant) => $variant->name.' ('.$variant->sku.')')->implode('; '),
         ])), 0, 12000);
         $hash = hash('sha256', $text);

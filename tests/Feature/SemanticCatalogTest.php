@@ -130,6 +130,7 @@ class SemanticCatalogTest extends TestCase
     #[TestWith(['product'])]
     #[TestWith(['variant'])]
     #[TestWith(['category'])]
+    #[TestWith(['audience'])]
     public function test_catalog_edits_invalidate_old_embeddings_and_queue_an_update(string $changed): void
     {
         [$team, $product] = $this->catalog();
@@ -142,6 +143,7 @@ class SemanticCatalogTest extends TestCase
 
         match ($changed) {
             'product' => $product->update(['description' => 'Nueva descripción']),
+            'audience' => $product->update(['audience' => 'women']),
             'variant' => $product->variants()->sole()->update(['name' => 'Azul / grande']),
             'category' => $category->update(['name' => 'Nueva categoría']),
         };

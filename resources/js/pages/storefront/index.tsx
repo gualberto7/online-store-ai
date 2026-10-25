@@ -21,6 +21,7 @@ type Product = {
     available: boolean;
 };
 type Filters = {
+    audience: string;
     q: string;
     category: number | '';
     branch: number | '';
@@ -58,6 +59,7 @@ export default function StorefrontIndex({
     const hasFilters =
         filters.q ||
         filters.category ||
+        filters.audience ||
         filters.branch ||
         filters.available ||
         filters.ai_query ||
@@ -161,7 +163,7 @@ export default function StorefrontIndex({
                     </p>
                 </div>
                 <Form
-                    key={JSON.stringify(filters)}
+                    key={`catalog-${JSON.stringify(filters)}`}
                     {...home.form()}
                     className="flex flex-col gap-4 rounded-2xl border border-stone-200 bg-white p-4 sm:p-5"
                 >
@@ -174,7 +176,7 @@ export default function StorefrontIndex({
                                     value={filters.ai_query}
                                 />
                             )}
-                            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
+                            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
                                 <div className="relative">
                                     <label htmlFor="q" className="sr-only">
                                         Buscar productos
@@ -189,6 +191,19 @@ export default function StorefrontIndex({
                                         className="h-11 border-stone-200 bg-white pl-9 text-stone-900 placeholder:text-stone-400"
                                     />
                                 </div>
+                                <select
+                                    name="audience"
+                                    aria-label="Público"
+                                    defaultValue={filters.audience}
+                                    className={selectClass}
+                                >
+                                    <option value="">Todos los públicos</option>
+                                    <option value="women">
+                                        Mujer y unisex
+                                    </option>
+                                    <option value="men">Hombre y unisex</option>
+                                    <option value="unisex">Solo unisex</option>
+                                </select>
                                 <select
                                     name="category"
                                     aria-label="Categoría"
@@ -291,7 +306,7 @@ export default function StorefrontIndex({
                 </Form>
                 {(semanticSearch.available || filters.ai_query) && (
                     <StorefrontAiSearch
-                        key={JSON.stringify(filters)}
+                        key={`ai-${JSON.stringify(filters)}`}
                         filters={filters}
                         fallback={semanticSearch.fallback}
                     />

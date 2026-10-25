@@ -10,6 +10,7 @@ import {
 import { home } from '@/routes';
 
 type Filters = {
+    audience: string;
     q: string;
     ai_query: string;
     category: number | '';
@@ -83,6 +84,11 @@ export default function StorefrontAiSearch({
                 >
                     {({ errors, processing }) => (
                         <>
+                            <input
+                                type="hidden"
+                                name="audience"
+                                value={filters.audience}
+                            />
                             <input type="hidden" name="q" value={filters.q} />
                             <input
                                 type="hidden"

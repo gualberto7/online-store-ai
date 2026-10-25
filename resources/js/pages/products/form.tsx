@@ -12,6 +12,7 @@ type Product = {
     description: string | null;
     is_active: boolean;
     category_id: number | null;
+    audience: string;
 };
 
 type Category = { id: number; name: string; is_active: boolean };
@@ -99,6 +100,22 @@ export default function ProductForm({
                                     ))}
                                 </select>
                                 <InputError message={errors.category_id} />
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="audience">Público</Label>
+                                <select
+                                    id="audience"
+                                    name="audience"
+                                    defaultValue={product?.audience ?? 'unisex'}
+                                    required
+                                    className="h-9 rounded-md border border-input bg-background px-3 text-sm focus-visible:ring-2 focus-visible:ring-ring"
+                                    aria-invalid={!!errors.audience}
+                                >
+                                    <option value="women">Mujer</option>
+                                    <option value="men">Hombre</option>
+                                    <option value="unisex">Unisex</option>
+                                </select>
+                                <InputError message={errors.audience} />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="is_active">Estado</Label>

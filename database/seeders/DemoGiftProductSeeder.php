@@ -25,7 +25,7 @@ class DemoGiftProductSeeder extends Seeder
                 $category = $team->categories()->firstOrCreate(['name' => $data['category']], ['is_active' => true]);
                 $existing = ProductVariant::query()->where('team_id', $team->id)->where('sku', $data['variants'][0]['sku'])->with('product')->first();
                 $product = $existing !== null ? $existing->product : $team->products()->firstOrCreate(['name' => $data['name']], [
-                    'description' => $data['description'], 'category_id' => $category->id, 'is_active' => true,
+                    'audience' => $data['audience'], 'description' => $data['description'], 'category_id' => $category->id, 'is_active' => true,
                 ]);
                 foreach ($data['variants'] as $variantData) {
                     $variant = $product->variants()->firstOrNew(['sku' => $variantData['sku']]);
@@ -42,7 +42,7 @@ class DemoGiftProductSeeder extends Seeder
         });
     }
 
-    /** @return list<array{source_id: int, name: string, category: string, description: string, image_url: string, variants: list<array{sku: string, name: string, price: string}>}> */
+    /** @return list<array{source_id: int, name: string, category: string, audience: string, description: string, image_url: string, variants: list<array{sku: string, name: string, price: string}>}> */
     public function catalog(): array
     {
         return File::json(__DIR__.'/demo-gift-products.json')['products'];

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ProductAudience;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -25,13 +26,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $team_id
  * @property string $name
  * @property string|null $description
+ * @property ProductAudience $audience
  * @property bool $is_active
  * @property-read Team $team
  * @property-read Collection<int, ProductVariant> $variants
  */
-#[Fillable(['name', 'description', 'is_active', 'category_id'])]
+#[Fillable(['name', 'description', 'is_active', 'category_id', 'audience'])]
 class Product extends Model
 {
+    protected $attributes = ['audience' => 'unisex'];
+
     protected $hidden = ['search_embedding', 'search_embedding_profile', 'search_content_hash', 'search_indexed_at', 'search_version'];
 
     /** @use HasFactory<ProductFactory> */
@@ -73,6 +77,6 @@ class Product extends Model
     /** @return array<string, string> */
     protected function casts(): array
     {
-        return ['is_active' => 'boolean', 'search_embedding' => AsVector::class, 'search_version' => 'integer', 'search_indexed_at' => 'immutable_datetime'];
+        return ['audience' => ProductAudience::class, 'is_active' => 'boolean', 'search_embedding' => AsVector::class, 'search_version' => 'integer', 'search_indexed_at' => 'immutable_datetime'];
     }
 }

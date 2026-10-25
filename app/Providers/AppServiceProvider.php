@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
         Product::saved(function (Product $product): void {
-            if ($product->wasChanged(['name', 'description', 'category_id', 'is_active']) || $product->wasRecentlyCreated) {
+            if ($product->wasChanged(['name', 'description', 'category_id', 'is_active', 'audience']) || $product->wasRecentlyCreated) {
                 app(InvalidateProductEmbedding::class)->handle($product->id);
             }
         });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\SearchCatalogSemantically;
 use App\Actions\StorefrontCart;
+use App\Enums\ProductAudience;
 use App\Http\Requests\BrowseStorefrontRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
@@ -24,10 +25,11 @@ class StorefrontController extends Controller
         $categoryId = $request->integer('category');
         $branchId = $request->integer('branch');
         $aiQuery = $request->string('ai_query')->trim()->toString();
+        $audience = $request->filled('audience') ? ProductAudience::from($request->string('audience')->toString()) : ProductAudience::fromQuery($aiQuery);
         $semantic = $aiQuery !== '';
         $sort = $request->input('sort') ?: ($semantic ? 'relevance' : 'name');
         $semanticResult = $semantic && $team !== null
-            ? $semanticSearch->handle($team, $aiQuery, $categoryId, $branchId, $request->boolean('available'))
+            ? $semanticSearch->handle($team, $aiQuery, $categoryId, $branchId, $request->boolean('available'), $audience)
             : ['ids' => [], 'fallback' => false];
         $semanticIds = $semanticResult['ids'];
         if ($semantic) {
@@ -41,6 +43,7 @@ class StorefrontController extends Controller
                 ->when($branchId, fn ($query) => $query->where('branch_id', $branchId)));
 
         $products = Product::query()->select(['id', 'name', 'category_id'])->where('team_id', $team->id ?? 0)->publiclyVisible()
+            ->when($audience, fn ($query) => $query->whereIn('audience', array_unique([$audience->value, ProductAudience::Unisex->value])))
             ->with(['category:id,name', 'images' => fn ($query) => $query->limit(1)])
             ->withMin(['variants as starting_price' => fn ($query) => $query->where('is_active', true)], 'price')
             ->withExists(['variants as available' => $availableVariants])
@@ -81,7 +84,7 @@ class StorefrontController extends Controller
             'products' => $products,
             'categories' => $team?->categories()->where('is_active', true)->orderBy('name')->get(['id', 'name']) ?? [],
             'branches' => $team?->branches()->where('is_active', true)->orderBy('name')->get(['id', 'name', 'address']) ?? [],
-            'filters' => ['q' => $search, 'category' => $categoryId ?: '', 'branch' => $branchId ?: '', 'available' => $request->boolean('available'), 'sort' => $sort, 'ai_query' => $aiQuery],
+            'filters' => ['audience' => $request->input('audience') ?? '', 'q' => $search, 'category' => $categoryId ?: '', 'branch' => $branchId ?: '', 'available' => $request->boolean('available'), 'sort' => $sort, 'ai_query' => $aiQuery],
         ]);
     }
 
