@@ -85,7 +85,7 @@ class StorefrontController extends Controller
         ]);
     }
 
-    public function show(Product $product): Response
+    public function show(BrowseStorefrontRequest $request, Product $product): Response
     {
         $team = $this->storeTeam();
         abort_unless($team !== null, 404);
@@ -95,6 +95,7 @@ class StorefrontController extends Controller
         ]);
 
         return Inertia::render('storefront/show', [
+            'catalogFilters' => $request->validated(),
             'storefront' => ['name' => config('storefront.name')],
             'product' => [
                 'id' => $product->id, 'name' => $product->name, 'description' => $product->description,

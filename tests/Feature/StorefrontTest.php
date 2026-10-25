@@ -175,6 +175,29 @@ class StorefrontTest extends TestCase
         $this->get(route('storefront.show', $product))->assertNotFound();
     }
 
+    public function test_product_details_preserve_the_catalog_search_filters_and_page(): void
+    {
+        $team = $this->store();
+        $product = $this->product($team, 'Zapatillas');
+        $category = Category::factory()->for($team)->create();
+        $branch = Branch::factory()->for($team)->create();
+        $filters = ['q' => 'Zapatillas', 'ai_query' => 'Un regalo para caminar', 'category' => (string) $category->id,
+            'branch' => (string) $branch->id, 'available' => '1', 'sort' => 'price_asc', 'page' => '2'];
+
+        $this->get(route('storefront.show', ['product' => $product, ...$filters]))
+            ->assertInertia(fn (Assert $page) => $page->component('storefront/show')->where('catalogFilters', $filters)
+                ->where('product.id', $product->id));
+    }
+
+    public function test_direct_product_links_have_no_catalog_context_and_ignore_arbitrary_return_urls(): void
+    {
+        $team = $this->store();
+        $product = $this->product($team, 'Zapatillas');
+
+        $this->get(route('storefront.show', ['product' => $product, 'return_to' => 'https://example.com/untrusted']))
+            ->assertInertia(fn (Assert $page) => $page->where('catalogFilters', []));
+    }
+
     public function test_a_signed_in_visitors_current_team_does_not_change_the_public_business(): void
     {
         $team = $this->store();

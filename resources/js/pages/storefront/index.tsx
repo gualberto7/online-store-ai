@@ -62,6 +62,15 @@ export default function StorefrontIndex({
         filters.available ||
         filters.ai_query ||
         filters.sort !== 'name';
+    function productLink(productId: number) {
+        return show(productId, {
+            query: {
+                ...filters,
+                available: filters.available ? 1 : undefined,
+                page: products.current_page,
+            },
+        });
+    }
     function pageLink(page: number) {
         return home({
             query: {
@@ -100,7 +109,7 @@ export default function StorefrontIndex({
                 <div className="relative flex min-h-64 items-center justify-center overflow-hidden rounded-3xl bg-stone-200/50 p-6 sm:min-h-80">
                     {featured?.image ? (
                         <Link
-                            href={show(featured.id)}
+                            href={productLink(featured.id)}
                             className="flex h-full w-full flex-col gap-5"
                         >
                             <img
@@ -314,7 +323,7 @@ export default function StorefrontIndex({
                         {products.data.map((product) => (
                             <Link
                                 key={product.id}
-                                href={show(product.id)}
+                                href={productLink(product.id)}
                                 className="group flex min-w-0 flex-col gap-3 rounded-2xl focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:outline-none"
                             >
                                 <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden rounded-2xl border border-stone-200/50 bg-stone-100 p-5">

@@ -51,6 +51,19 @@ class SemanticCatalogTest extends TestCase
         Embeddings::assertNothingGenerated();
     }
 
+    public function test_opening_product_details_carries_the_ai_query_without_generating_embeddings(): void
+    {
+        [, $product] = $this->catalog();
+        $this->enable();
+        Embeddings::fake()->preventStrayEmbeddings();
+
+        $this->get(route('storefront.show', ['product' => $product, 'ai_query' => 'Un regalo para viajar', 'page' => 3]))
+            ->assertInertia(fn (Assert $page) => $page->where('catalogFilters.ai_query', 'Un regalo para viajar')
+                ->where('catalogFilters.page', '3'));
+
+        Embeddings::assertNothingGenerated();
+    }
+
     public function test_ai_descriptions_accept_more_text_and_remain_separate_from_normal_search(): void
     {
         $this->catalog();

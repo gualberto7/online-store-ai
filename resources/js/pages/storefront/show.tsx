@@ -7,6 +7,7 @@ import { buttonClass, fieldClass } from './cart';
 
 type Props = {
     storefront: { name: string };
+    catalogFilters: Record<string, string | number | boolean | null>;
     product: {
         id: number;
         name: string;
@@ -28,6 +29,7 @@ export default function StorefrontShow({
     storefront,
     product,
     branches,
+    catalogFilters,
 }: Props) {
     const [variantId, setVariantId] = useState(product.variants[0]?.id);
     const [imageId, setImageId] = useState(product.images[0]?.id);
@@ -41,7 +43,7 @@ export default function StorefrontShow({
         <>
             <Head title={`${product.name} · ${storefront.name}`} />
             <Link
-                href={home()}
+                href={home({ query: catalogFilters })}
                 className="mb-8 inline-flex items-center gap-2 text-sm text-stone-500 hover:text-teal-900"
             >
                 <ArrowLeft className="size-4" />
