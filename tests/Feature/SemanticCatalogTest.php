@@ -32,10 +32,54 @@ class SemanticCatalogTest extends TestCase
         Embeddings::fake()->preventStrayEmbeddings();
         config(['semantic-search.enabled' => false]);
 
-        $this->get(route('home', ['q' => $product->name, 'semantic' => 1]))->assertInertia(fn (Assert $page) => $page
+        $this->get(route('home', ['ai_query' => $product->name]))->assertInertia(fn (Assert $page) => $page
             ->has('products.data', 1)->where('semanticSearch.available', false)->where('semanticSearch.fallback', true));
         $this->artisan('catalog:index-embeddings')->assertFailed();
         Embeddings::assertNothingGenerated();
+    }
+
+    public function test_normal_search_never_generates_embeddings_even_with_the_old_semantic_flag(): void
+    {
+        [, $product] = $this->catalog();
+        $this->enable();
+        Embeddings::fake()->preventStrayEmbeddings();
+
+        $this->get(route('home', ['q' => 'Mochila', 'semantic' => 1]))->assertInertia(fn (Assert $page) => $page
+            ->has('products.data', 1)->where('products.data.0.id', $product->id)
+            ->where('filters.q', 'Mochila')->where('filters.ai_query', '')->where('semanticSearch.fallback', false));
+
+        Embeddings::assertNothingGenerated();
+    }
+
+    public function test_ai_descriptions_accept_more_text_and_remain_separate_from_normal_search(): void
+    {
+        $this->catalog();
+        config(['semantic-search.enabled' => false]);
+        $description = str_repeat('Quiero un regalo para viajar. ', 10);
+
+        $this->get(route('home', ['q' => 'Mochila', 'ai_query' => $description]))->assertInertia(fn (Assert $page) => $page
+            ->where('filters.q', 'Mochila')->where('filters.ai_query', trim($description))
+            ->where('filters.sort', 'relevance')->where('semanticSearch.fallback', true));
+    }
+
+    #[TestWith(['ai_query', 1001])]
+    #[TestWith(['q', 121])]
+    public function test_each_search_field_enforces_its_own_length_limit(string $field, int $length): void
+    {
+        $this->catalog();
+
+        $this->get(route('home', [$field => str_repeat('x', $length)]))->assertSessionHasErrors($field);
+    }
+
+    public function test_pagination_preserves_the_ai_description_and_other_filters(): void
+    {
+        [$team] = $this->catalog();
+        Product::factory()->for($team)->has(ProductVariant::factory(), 'variants')->count(12)->create(['name' => 'Mochila de regalo']);
+        config(['semantic-search.enabled' => false]);
+
+        $this->get(route('home', ['ai_query' => 'Mochila']))->assertInertia(fn (Assert $page) => $page
+            ->has('products.data', 12)->where('products.total', 13)
+            ->where('products.next_page_url', fn (string $url): bool => str_contains($url, 'ai_query=Mochila')));
     }
 
     public function test_index_includes_catalog_text_but_excludes_prices_stock_and_inactive_variants(): void
@@ -172,7 +216,7 @@ class SemanticCatalogTest extends TestCase
         $this->enable();
         Embeddings::fake([[[1.0, 0.0, 0.0]], [[1.0, 0.0, 0.0]]])->preventStrayEmbeddings();
         app(IndexProductEmbedding::class)->handle($product->id);
-        $filters = ['q' => 'algo para viajar', 'semantic' => 1, 'sort' => 'relevance', 'branch' => $branch->id, 'available' => 1, 'category' => $category->id];
+        $filters = ['ai_query' => 'algo para viajar', 'sort' => 'relevance', 'branch' => $branch->id, 'available' => 1, 'category' => $category->id];
         $product->variants()->sole()->update(['price' => '9.99']);
 
         $this->get(route('home', $filters))->assertInertia(fn (Assert $page) => $page->has('products.data', 1)
@@ -193,10 +237,13 @@ class SemanticCatalogTest extends TestCase
         app(IndexProductEmbedding::class)->handle($product->id);
         $foreign->forceFill(['search_embedding' => [1.0, 0.0, 0.0], 'search_embedding_profile' => app(GenerateSearchEmbedding::class)->profile()])->saveQuietly();
 
-        $this->get(route('home', ['q' => 'CODIGO-EXACTO', 'semantic' => 1, 'sort' => 'relevance']))
+        $this->get(route('home', ['ai_query' => 'CODIGO-EXACTO', 'sort' => 'relevance']))
             ->assertInertia(fn (Assert $page) => $page->has('products.data', 2)->where('products.data.0.id', $exact->id)->where('products.data.1.id', $product->id));
+        $this->get(route('home', ['q' => 'Exacto', 'ai_query' => 'CODIGO-EXACTO']))
+            ->assertInertia(fn (Assert $page) => $page->has('products.data', 1)->where('products.data.0.id', $exact->id)
+                ->where('filters.q', 'Exacto')->where('filters.ai_query', 'CODIGO-EXACTO'));
         config(['semantic-search.model' => 'new-model']);
-        $this->get(route('home', ['q' => 'sin coincidencia', 'semantic' => 1]))
+        $this->get(route('home', ['ai_query' => 'sin coincidencia']))
             ->assertInertia(fn (Assert $page) => $page->has('products.data', 0)->where('semanticSearch.fallback', true));
     }
 
@@ -210,7 +257,7 @@ class SemanticCatalogTest extends TestCase
         Embeddings::fake(fn () => throw new RuntimeException('Proveedor no disponible'));
         Exceptions::fake();
 
-        $this->get(route('home', ['q' => 'Mochila', 'semantic' => 1]))->assertInertia(fn (Assert $page) => $page
+        $this->get(route('home', ['ai_query' => 'Mochila']))->assertInertia(fn (Assert $page) => $page
             ->has('products.data', 1)->where('semanticSearch.fallback', true));
         Exceptions::assertReported(RuntimeException::class);
     }

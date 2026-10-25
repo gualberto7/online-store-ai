@@ -23,14 +23,15 @@ class StorefrontController extends Controller
         $search = $request->string('q')->trim()->toString();
         $categoryId = $request->integer('category');
         $branchId = $request->integer('branch');
-        $semantic = $request->boolean('semantic');
+        $aiQuery = $request->string('ai_query')->trim()->toString();
+        $semantic = $aiQuery !== '';
         $sort = $request->input('sort') ?: ($semantic ? 'relevance' : 'name');
-        $semanticResult = $semantic && $search !== '' && $team !== null
-            ? $semanticSearch->handle($team, $search, $categoryId, $branchId, $request->boolean('available'))
+        $semanticResult = $semantic && $team !== null
+            ? $semanticSearch->handle($team, $aiQuery, $categoryId, $branchId, $request->boolean('available'))
             : ['ids' => [], 'fallback' => false];
         $semanticIds = $semanticResult['ids'];
-        if ($semantic && $search !== '') {
-            $exactIds = ProductVariant::query()->where('team_id', $team->id ?? 0)->where('is_active', true)->where('sku', $search)->pluck('product_id')->all();
+        if ($semantic) {
+            $exactIds = ProductVariant::query()->where('team_id', $team->id ?? 0)->where('is_active', true)->where('sku', $aiQuery)->pluck('product_id')->all();
             $semanticIds = array_values(array_unique([...$exactIds, ...$semanticIds]));
         }
 
@@ -47,7 +48,10 @@ class StorefrontController extends Controller
             ->when($categoryId, fn ($query) => $query->where('category_id', $categoryId))
             ->when($search !== '', fn ($query) => $query->where(fn ($query) => $query
                 ->whereLike('name', "%{$search}%")->orWhereLike('description', "%{$search}%")
-                ->orWhereHas('variants', fn ($query) => $query->where('is_active', true)->whereLike('sku', "%{$search}%"))
+                ->orWhereHas('variants', fn ($query) => $query->where('is_active', true)->whereLike('sku', "%{$search}%"))))
+            ->when($semantic, fn ($query) => $query->where(fn ($query) => $query
+                ->whereLike('name', "%{$aiQuery}%")->orWhereLike('description', "%{$aiQuery}%")
+                ->orWhereHas('variants', fn ($query) => $query->where('is_active', true)->whereLike('sku', "%{$aiQuery}%"))
                 ->when($semanticIds !== [], fn ($query) => $query->orWhereIn('id', $semanticIds))))
             ->when($request->boolean('available'), fn ($query) => $query->whereHas('variants', $availableVariants))
             ->when($sort === 'relevance' && $semanticIds !== [], function ($query) use ($semanticIds): void {
@@ -77,7 +81,7 @@ class StorefrontController extends Controller
             'products' => $products,
             'categories' => $team?->categories()->where('is_active', true)->orderBy('name')->get(['id', 'name']) ?? [],
             'branches' => $team?->branches()->where('is_active', true)->orderBy('name')->get(['id', 'name', 'address']) ?? [],
-            'filters' => ['q' => $search, 'category' => $categoryId ?: '', 'branch' => $branchId ?: '', 'available' => $request->boolean('available'), 'sort' => $sort, 'semantic' => $semantic],
+            'filters' => ['q' => $search, 'category' => $categoryId ?: '', 'branch' => $branchId ?: '', 'available' => $request->boolean('available'), 'sort' => $sort, 'ai_query' => $aiQuery],
         ]);
     }
 

@@ -6,6 +6,7 @@ import {
     Search,
     SlidersHorizontal,
 } from 'lucide-react';
+import StorefrontAiSearch from '@/components/storefront-ai-search';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { home } from '@/routes';
@@ -24,7 +25,7 @@ type Filters = {
     category: number | '';
     branch: number | '';
     available: boolean;
-    semantic: boolean;
+    ai_query: string;
     sort: string;
 };
 type Props = {
@@ -59,14 +60,13 @@ export default function StorefrontIndex({
         filters.category ||
         filters.branch ||
         filters.available ||
-        filters.semantic ||
+        filters.ai_query ||
         filters.sort !== 'name';
     function pageLink(page: number) {
         return home({
             query: {
                 ...filters,
                 available: filters.available ? 1 : undefined,
-                semantic: filters.semantic ? 1 : undefined,
                 page,
             },
         });
@@ -158,6 +158,13 @@ export default function StorefrontIndex({
                 >
                     {({ processing, errors }) => (
                         <>
+                            {filters.ai_query && (
+                                <input
+                                    type="hidden"
+                                    name="ai_query"
+                                    value={filters.ai_query}
+                                />
+                            )}
                             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
                                 <div className="relative">
                                     <label htmlFor="q" className="sr-only">
@@ -215,7 +222,8 @@ export default function StorefrontIndex({
                                     defaultValue={filters.sort}
                                     className={selectClass}
                                 >
-                                    {semanticSearch.available && (
+                                    {(semanticSearch.available ||
+                                        filters.ai_query) && (
                                         <option value="relevance">
                                             Más relevantes
                                         </option>
@@ -261,28 +269,6 @@ export default function StorefrontIndex({
                                     </Button>
                                 </div>
                             </div>
-                            {semanticSearch.available && (
-                                <label className="flex items-center gap-2 text-sm text-stone-700">
-                                    <input
-                                        type="checkbox"
-                                        name="semantic"
-                                        value="1"
-                                        defaultChecked={filters.semantic}
-                                        className="size-4 accent-teal-800"
-                                    />
-                                    Buscar también por significado
-                                </label>
-                            )}
-                            {semanticSearch.fallback && (
-                                <p
-                                    role="status"
-                                    className="text-sm text-stone-500"
-                                >
-                                    La búsqueda por significado no está
-                                    disponible en este momento. Mostramos
-                                    coincidencias por texto.
-                                </p>
-                            )}
                             {Object.values(errors).length > 0 && (
                                 <p
                                     role="alert"
@@ -294,6 +280,13 @@ export default function StorefrontIndex({
                         </>
                     )}
                 </Form>
+                {(semanticSearch.available || filters.ai_query) && (
+                    <StorefrontAiSearch
+                        key={JSON.stringify(filters)}
+                        filters={filters}
+                        fallback={semanticSearch.fallback}
+                    />
+                )}
                 {products.data.length === 0 ? (
                     <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-stone-300 px-6 py-16 text-center">
                         <Package className="size-10 text-stone-400" />
