@@ -10,6 +10,7 @@ use App\Models\Team;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class BuildStoreReports
@@ -55,6 +56,38 @@ class BuildStoreReports
             ->select('product_variant_id as variant_id')
             ->selectRaw('MAX(product_name) AS product, MAX(variant_name) AS variant, MAX(sku) AS sku, SUM(quantity) AS units, SUM(quantity * unit_price_cents) AS amount_cents')
             ->groupBy('product_variant_id')->orderByDesc('units')->orderByDesc('amount_cents')->orderBy('product_variant_id');
+    }
+
+    /**
+     * @param  Collection<int, \stdClass>  $sales
+     * @param  Collection<int, \stdClass>  $refunds
+     * @return list<array{from: string, to: string, sales_cents: int, refunds_cents: int, net_cents: int}>
+     */
+    public function trend(string $from, string $to, Collection $sales, Collection $refunds): array
+    {
+        $start = CarbonImmutable::parse($from)->startOfDay();
+        $end = CarbonImmutable::parse($to)->startOfDay();
+        $days = (int) $start->diffInDays($end) + 1;
+        $interval = max(1, (int) ceil($days / 90));
+        $buckets = [];
+        for ($offset = 0; $offset < $days; $offset += $interval) {
+            $bucketStart = $start->addDays($offset);
+            $buckets[] = ['from' => $bucketStart->toDateString(), 'to' => $bucketStart->addDays($interval - 1)->min($end)->toDateString(),
+                'sales_cents' => 0, 'refunds_cents' => 0, 'net_cents' => 0];
+        }
+        foreach (['sales_cents' => $sales, 'refunds_cents' => $refunds] as $key => $rows) {
+            foreach ($rows as $row) {
+                $index = (int) floor($start->diffInDays(CarbonImmutable::parse($row->date)) / $interval);
+                if (isset($buckets[$index])) {
+                    $buckets[$index][$key] += (int) $row->amount_cents;
+                }
+            }
+        }
+        foreach ($buckets as &$bucket) {
+            $bucket['net_cents'] = $bucket['sales_cents'] - $bucket['refunds_cents'];
+        }
+
+        return $buckets;
     }
 
     /** @return array{sales_cents: int, refunds_cents: int, net_cents: int, orders: int, units_in_stock: int, out_of_stock: int} */

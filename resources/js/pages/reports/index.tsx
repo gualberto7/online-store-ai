@@ -1,6 +1,10 @@
 import { Form, Head, Link, usePage } from '@inertiajs/react';
-import { Download } from 'lucide-react';
+import { Download, ChartColumn, Table2 } from 'lucide-react';
 import InputError from '@/components/input-error';
+import ReportCharts, {
+    type TrendPoint,
+    type BranchStock,
+} from '@/components/report-charts';
 import ReportSummaryCards, {
     reportMoney,
     type ReportSummary,
@@ -10,7 +14,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { index, exportMethod as exportReport } from '@/routes/reports';
 
-type Filters = { from: string; to: string; branch: number | ''; stock: string };
+type Filters = {
+    from: string;
+    to: string;
+    branch: number | '';
+    stock: string;
+    view: 'details' | 'charts';
+};
 type InventoryRow = {
     branch_id: number;
     branch: string;
@@ -22,6 +32,8 @@ type InventoryRow = {
 };
 type Props = {
     summary: ReportSummary;
+    chartTrend: TrendPoint[];
+    stockByBranch: BranchStock[];
     filters: Filters;
     branches: { id: number; name: string; is_active: boolean }[];
     dailySales: {
@@ -50,6 +62,8 @@ const cellClass = 'px-4 py-3 text-left';
 
 export default function ReportsIndex({
     summary,
+    chartTrend,
+    stockByBranch,
     filters,
     branches,
     dailySales,
@@ -74,6 +88,52 @@ export default function ReportsIndex({
                         Ventas, devoluciones e inventario de tu empresa.
                     </p>
                 </header>
+                <nav
+                    aria-label="Vistas de reportes"
+                    className="flex w-fit gap-1 rounded-lg border bg-muted p-1"
+                >
+                    <Button
+                        variant={
+                            filters.view === 'details' ? 'default' : 'ghost'
+                        }
+                        asChild
+                    >
+                        <Link
+                            href={index(currentTeam.slug, {
+                                query: { ...filters, view: 'details' },
+                            })}
+                            aria-current={
+                                filters.view === 'details' ? 'page' : undefined
+                            }
+                            preserveScroll
+                        >
+                            <Table2 className="size-4" aria-hidden="true" />
+                            Detalle
+                        </Link>
+                    </Button>
+                    <Button
+                        variant={
+                            filters.view === 'charts' ? 'default' : 'ghost'
+                        }
+                        asChild
+                    >
+                        <Link
+                            href={index(currentTeam.slug, {
+                                query: { ...filters, view: 'charts' },
+                            })}
+                            aria-current={
+                                filters.view === 'charts' ? 'page' : undefined
+                            }
+                            preserveScroll
+                        >
+                            <ChartColumn
+                                className="size-4"
+                                aria-hidden="true"
+                            />
+                            Gráficas
+                        </Link>
+                    </Button>
+                </nav>
                 <Form
                     key={JSON.stringify(filters)}
                     {...index.form(currentTeam.slug)}
@@ -81,6 +141,11 @@ export default function ReportsIndex({
                 >
                     {({ errors, processing }) => (
                         <>
+                            <input
+                                type="hidden"
+                                name="view"
+                                value={filters.view}
+                            />
                             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                                 <div className="grid gap-2">
                                     <Label htmlFor="from">Desde</Label>
@@ -154,7 +219,11 @@ export default function ReportsIndex({
                                         : 'Aplicar filtros'}
                                 </Button>
                                 <Button variant="outline" asChild>
-                                    <Link href={index(currentTeam.slug)}>
+                                    <Link
+                                        href={index(currentTeam.slug, {
+                                            query: { view: filters.view },
+                                        })}
+                                    >
                                         Este mes
                                     </Link>
                                 </Button>
@@ -200,260 +269,291 @@ export default function ReportsIndex({
                         ))}
                     </div>
                 </section>
-                <section
-                    className="overflow-hidden rounded-xl border"
-                    aria-labelledby="sales-title"
-                >
-                    <div className="border-b p-5">
-                        <h2 id="sales-title" className="font-semibold">
-                            Ventas por día
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                            Ventas brutas. Se muestran los días con pedidos
-                            entregados.
-                        </p>
-                    </div>
-                    {dailySales.length === 0 ? (
-                        <p className="p-6 text-muted-foreground">
-                            No hay ventas entregadas en este período.
-                        </p>
-                    ) : (
-                        <div className="max-h-96 overflow-auto">
-                            <table className="w-full text-sm">
-                                <thead className="bg-muted">
-                                    <tr>
-                                        <th className={cellClass}>Fecha</th>
-                                        <th className={cellClass}>Pedidos</th>
-                                        <th className={cellClass}>
-                                            Ventas brutas
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {dailySales.map((day) => (
-                                        <tr key={day.date} className="border-t">
-                                            <td className={cellClass}>
-                                                {day.date}
-                                            </td>
-                                            <td className={cellClass}>
-                                                {day.orders}
-                                            </td>
-                                            <td
-                                                className={`${cellClass} min-w-48`}
-                                            >
-                                                <div className="flex flex-col gap-2">
-                                                    <span className="tabular-nums">
-                                                        {reportMoney(
-                                                            day.amount_cents,
-                                                        )}
-                                                    </span>
-                                                    <div
-                                                        aria-hidden="true"
-                                                        className="h-1.5 rounded-full bg-muted"
+                {filters.view === 'charts' ? (
+                    <ReportCharts
+                        trend={chartTrend}
+                        products={topProducts}
+                        stock={stockByBranch}
+                    />
+                ) : (
+                    <>
+                        <section
+                            className="overflow-hidden rounded-xl border"
+                            aria-labelledby="sales-title"
+                        >
+                            <div className="border-b p-5">
+                                <h2 id="sales-title" className="font-semibold">
+                                    Ventas por día
+                                </h2>
+                                <p className="text-sm text-muted-foreground">
+                                    Ventas brutas. Se muestran los días con
+                                    pedidos entregados.
+                                </p>
+                            </div>
+                            {dailySales.length === 0 ? (
+                                <p className="p-6 text-muted-foreground">
+                                    No hay ventas entregadas en este período.
+                                </p>
+                            ) : (
+                                <div className="max-h-96 overflow-auto">
+                                    <table className="w-full text-sm">
+                                        <thead className="bg-muted">
+                                            <tr>
+                                                <th className={cellClass}>
+                                                    Fecha
+                                                </th>
+                                                <th className={cellClass}>
+                                                    Pedidos
+                                                </th>
+                                                <th className={cellClass}>
+                                                    Ventas brutas
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {dailySales.map((day) => (
+                                                <tr
+                                                    key={day.date}
+                                                    className="border-t"
+                                                >
+                                                    <td className={cellClass}>
+                                                        {day.date}
+                                                    </td>
+                                                    <td className={cellClass}>
+                                                        {day.orders}
+                                                    </td>
+                                                    <td
+                                                        className={`${cellClass} min-w-48`}
                                                     >
-                                                        <div
-                                                            className="h-full rounded-full bg-primary"
-                                                            style={{
-                                                                width: `${(Number(day.amount_cents) / maxDaily) * 100}%`,
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </section>
-                <section
-                    className="overflow-hidden rounded-xl border"
-                    aria-labelledby="products-title"
-                >
-                    <div className="border-b p-5">
-                        <h2 id="products-title" className="font-semibold">
-                            10 variantes más vendidas
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                            Ordenadas por unidades vendidas, antes de
-                            devoluciones. Los importes usan el precio registrado
-                            en cada pedido.
-                        </p>
-                    </div>
-                    {topProducts.length === 0 ? (
-                        <p className="p-6 text-muted-foreground">
-                            No hay productos vendidos en este período.
-                        </p>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-sm">
-                                <thead className="bg-muted">
-                                    <tr>
-                                        {[
-                                            'Producto / variante',
-                                            'SKU',
-                                            'Unidades',
-                                            'Venta bruta',
-                                        ].map((label) => (
-                                            <th
-                                                key={label}
-                                                className={cellClass}
-                                            >
-                                                {label}
-                                            </th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {topProducts.map((product) => (
-                                        <tr
-                                            key={product.variant_id}
-                                            className="border-t"
-                                        >
-                                            <td className={cellClass}>
-                                                <p className="font-medium">
-                                                    {product.product}
-                                                </p>
-                                                <p className="text-muted-foreground">
-                                                    {product.variant}
-                                                </p>
-                                            </td>
-                                            <td className={cellClass}>
-                                                {product.sku}
-                                            </td>
-                                            <td
-                                                className={`${cellClass} tabular-nums`}
-                                            >
-                                                {product.units}
-                                            </td>
-                                            <td
-                                                className={`${cellClass} whitespace-nowrap tabular-nums`}
-                                            >
-                                                {reportMoney(
-                                                    product.amount_cents,
-                                                )}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </section>
-                <section
-                    className="overflow-hidden rounded-xl border"
-                    aria-labelledby="inventory-title"
-                >
-                    <div className="border-b p-5">
-                        <h2 id="inventory-title" className="font-semibold">
-                            Inventario actual
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                            {inventory.total} combinaciones de variante y
-                            sucursal. Solo productos, variantes y sucursales
-                            activos. El rango de fechas no modifica estas
-                            existencias.
-                        </p>
-                    </div>
-                    {inventory.data.length === 0 ? (
-                        <p className="p-6 text-muted-foreground">
-                            No hay existencias que coincidan con estos filtros.
-                        </p>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-sm">
-                                <thead className="bg-muted">
-                                    <tr>
-                                        {[
-                                            'Sucursal',
-                                            'Producto / variante',
-                                            'SKU',
-                                            'Existencias',
-                                        ].map((label) => (
-                                            <th
-                                                key={label}
-                                                className={cellClass}
-                                            >
-                                                {label}
-                                            </th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {inventory.data.map((row) => (
-                                        <tr
-                                            key={`${row.branch_id}-${row.variant_id}`}
-                                            className="border-t"
-                                        >
-                                            <td className={cellClass}>
-                                                {row.branch}
-                                            </td>
-                                            <td className={cellClass}>
-                                                <p className="font-medium">
-                                                    {row.product}
-                                                </p>
-                                                <p className="text-muted-foreground">
-                                                    {row.variant}
-                                                </p>
-                                            </td>
-                                            <td className={cellClass}>
-                                                {row.sku}
-                                            </td>
-                                            <td
-                                                className={`${cellClass} font-medium tabular-nums`}
-                                            >
-                                                {Number(row.quantity) === 0
-                                                    ? 'Sin existencias'
-                                                    : row.quantity}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </section>
-                {inventory.last_page > 1 && (
-                    <nav
-                        aria-label="Páginas de inventario"
-                        className="flex flex-wrap items-center gap-3"
-                    >
-                        {inventory.current_page > 1 && (
-                            <Button variant="outline" asChild>
-                                <Link
-                                    href={index(currentTeam.slug, {
-                                        query: {
-                                            ...filters,
-                                            page: inventory.current_page - 1,
-                                        },
-                                    })}
-                                    preserveScroll
+                                                        <div className="flex flex-col gap-2">
+                                                            <span className="tabular-nums">
+                                                                {reportMoney(
+                                                                    day.amount_cents,
+                                                                )}
+                                                            </span>
+                                                            <div
+                                                                aria-hidden="true"
+                                                                className="h-1.5 rounded-full bg-muted"
+                                                            >
+                                                                <div
+                                                                    className="h-full rounded-full bg-primary"
+                                                                    style={{
+                                                                        width: `${(Number(day.amount_cents) / maxDaily) * 100}%`,
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                        </section>
+                        <section
+                            className="overflow-hidden rounded-xl border"
+                            aria-labelledby="products-title"
+                        >
+                            <div className="border-b p-5">
+                                <h2
+                                    id="products-title"
+                                    className="font-semibold"
                                 >
-                                    Anterior
-                                </Link>
-                            </Button>
-                        )}
-                        <span className="text-sm">
-                            Página {inventory.current_page} de{' '}
-                            {inventory.last_page}
-                        </span>
-                        {inventory.current_page < inventory.last_page && (
-                            <Button variant="outline" asChild>
-                                <Link
-                                    href={index(currentTeam.slug, {
-                                        query: {
-                                            ...filters,
-                                            page: inventory.current_page + 1,
-                                        },
-                                    })}
-                                    preserveScroll
+                                    10 variantes más vendidas
+                                </h2>
+                                <p className="text-sm text-muted-foreground">
+                                    Ordenadas por unidades vendidas, antes de
+                                    devoluciones. Los importes usan el precio
+                                    registrado en cada pedido.
+                                </p>
+                            </div>
+                            {topProducts.length === 0 ? (
+                                <p className="p-6 text-muted-foreground">
+                                    No hay productos vendidos en este período.
+                                </p>
+                            ) : (
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-sm">
+                                        <thead className="bg-muted">
+                                            <tr>
+                                                {[
+                                                    'Producto / variante',
+                                                    'SKU',
+                                                    'Unidades',
+                                                    'Venta bruta',
+                                                ].map((label) => (
+                                                    <th
+                                                        key={label}
+                                                        className={cellClass}
+                                                    >
+                                                        {label}
+                                                    </th>
+                                                ))}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {topProducts.map((product) => (
+                                                <tr
+                                                    key={product.variant_id}
+                                                    className="border-t"
+                                                >
+                                                    <td className={cellClass}>
+                                                        <p className="font-medium">
+                                                            {product.product}
+                                                        </p>
+                                                        <p className="text-muted-foreground">
+                                                            {product.variant}
+                                                        </p>
+                                                    </td>
+                                                    <td className={cellClass}>
+                                                        {product.sku}
+                                                    </td>
+                                                    <td
+                                                        className={`${cellClass} tabular-nums`}
+                                                    >
+                                                        {product.units}
+                                                    </td>
+                                                    <td
+                                                        className={`${cellClass} whitespace-nowrap tabular-nums`}
+                                                    >
+                                                        {reportMoney(
+                                                            product.amount_cents,
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                        </section>
+                        <section
+                            className="overflow-hidden rounded-xl border"
+                            aria-labelledby="inventory-title"
+                        >
+                            <div className="border-b p-5">
+                                <h2
+                                    id="inventory-title"
+                                    className="font-semibold"
                                 >
-                                    Siguiente
-                                </Link>
-                            </Button>
+                                    Inventario actual
+                                </h2>
+                                <p className="text-sm text-muted-foreground">
+                                    {inventory.total} combinaciones de variante
+                                    y sucursal. Solo productos, variantes y
+                                    sucursales activos. El rango de fechas no
+                                    modifica estas existencias.
+                                </p>
+                            </div>
+                            {inventory.data.length === 0 ? (
+                                <p className="p-6 text-muted-foreground">
+                                    No hay existencias que coincidan con estos
+                                    filtros.
+                                </p>
+                            ) : (
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-sm">
+                                        <thead className="bg-muted">
+                                            <tr>
+                                                {[
+                                                    'Sucursal',
+                                                    'Producto / variante',
+                                                    'SKU',
+                                                    'Existencias',
+                                                ].map((label) => (
+                                                    <th
+                                                        key={label}
+                                                        className={cellClass}
+                                                    >
+                                                        {label}
+                                                    </th>
+                                                ))}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {inventory.data.map((row) => (
+                                                <tr
+                                                    key={`${row.branch_id}-${row.variant_id}`}
+                                                    className="border-t"
+                                                >
+                                                    <td className={cellClass}>
+                                                        {row.branch}
+                                                    </td>
+                                                    <td className={cellClass}>
+                                                        <p className="font-medium">
+                                                            {row.product}
+                                                        </p>
+                                                        <p className="text-muted-foreground">
+                                                            {row.variant}
+                                                        </p>
+                                                    </td>
+                                                    <td className={cellClass}>
+                                                        {row.sku}
+                                                    </td>
+                                                    <td
+                                                        className={`${cellClass} font-medium tabular-nums`}
+                                                    >
+                                                        {Number(
+                                                            row.quantity,
+                                                        ) === 0
+                                                            ? 'Sin existencias'
+                                                            : row.quantity}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                        </section>
+                        {inventory.last_page > 1 && (
+                            <nav
+                                aria-label="Páginas de inventario"
+                                className="flex flex-wrap items-center gap-3"
+                            >
+                                {inventory.current_page > 1 && (
+                                    <Button variant="outline" asChild>
+                                        <Link
+                                            href={index(currentTeam.slug, {
+                                                query: {
+                                                    ...filters,
+                                                    page:
+                                                        inventory.current_page -
+                                                        1,
+                                                },
+                                            })}
+                                            preserveScroll
+                                        >
+                                            Anterior
+                                        </Link>
+                                    </Button>
+                                )}
+                                <span className="text-sm">
+                                    Página {inventory.current_page} de{' '}
+                                    {inventory.last_page}
+                                </span>
+                                {inventory.current_page <
+                                    inventory.last_page && (
+                                    <Button variant="outline" asChild>
+                                        <Link
+                                            href={index(currentTeam.slug, {
+                                                query: {
+                                                    ...filters,
+                                                    page:
+                                                        inventory.current_page +
+                                                        1,
+                                                },
+                                            })}
+                                            preserveScroll
+                                        >
+                                            Siguiente
+                                        </Link>
+                                    </Button>
+                                )}
+                            </nav>
                         )}
-                    </nav>
+                    </>
                 )}
             </div>
         </>

@@ -93,6 +93,8 @@ class ReportTest extends TestCase
         $this->actingAs($user)->get(route('reports.index', $team))->assertInertia(fn (Assert $page) => $page
             ->where('summary.sales_cents', 18000)->where('summary.refunds_cents', 2500)->where('summary.net_cents', 15500)->where('summary.orders', 2)
             ->has('dailySales', 2)->where('dailySales.0.date', '2026-11-01')->where('dailySales.1.date', '2026-11-15')
+            ->has('chartTrend', 15)->where('chartTrend.0.sales_cents', 12000)->where('chartTrend.1.sales_cents', 0)
+            ->where('chartTrend.14.refunds_cents', 2500)->where('chartTrend.14.net_cents', 3500)
             ->has('topProducts', 1)->where('topProducts.0.units', fn ($units) => (int) $units === 5)
             ->where('topProducts.0.amount_cents', fn ($amount) => (int) $amount === 18000));
         $this->get(route('dashboard', $team))->assertInertia(fn (Assert $page) => $page->where('reportSummary.net_cents', 15500));
@@ -123,9 +125,12 @@ class ReportTest extends TestCase
         Stock::factory()->create(['quantity' => 999]);
 
         $this->actingAs($user)->get(route('reports.index', $team))->assertInertia(fn (Assert $page) => $page
-            ->where('summary.units_in_stock', 7)->where('summary.out_of_stock', 1)->where('inventory.total', 2));
+            ->where('summary.units_in_stock', 7)->where('summary.out_of_stock', 1)->where('inventory.total', 2)
+            ->has('stockByBranch', 2)->where('stockByBranch.0.units', fn ($units) => (int) $units === 7)
+            ->where('stockByBranch.1.empty_count', fn ($count) => (int) $count === 1));
         $this->get(route('reports.index', [$team, 'branch' => $second->id, 'stock' => 'empty', 'from' => '2020-01-01', 'to' => '2020-01-02']))
-            ->assertInertia(fn (Assert $page) => $page->where('inventory.total', 1)->where('inventory.data.0.quantity', 0)->where('inventory.data.0.branch_id', $second->id)->where('summary.units_in_stock', 0));
+            ->assertInertia(fn (Assert $page) => $page->where('inventory.total', 1)->where('inventory.data.0.quantity', 0)->where('inventory.data.0.branch_id', $second->id)->where('summary.units_in_stock', 0)
+                ->has('stockByBranch', 1)->where('stockByBranch.0.branch_id', $second->id)->where('stockByBranch.0.units', fn ($units) => (int) $units === 0));
         $this->get(route('reports.index', [$team, 'branch' => $first->id, 'stock' => 'empty']))->assertInertia(fn (Assert $page) => $page->where('inventory.total', 0));
     }
 
@@ -183,6 +188,42 @@ class ReportTest extends TestCase
         $this->assertStringContainsString(',RANK-1,1,1.00', $csv);
     }
 
+    public function test_chart_intervals_cover_long_periods_without_losing_sales_or_refunds(): void
+    {
+        [$user, $team] = $this->member();
+        $branch = Branch::factory()->for($team)->create();
+        $variant = ProductVariant::factory()->for(Product::factory()->for($team))->create();
+        $sale = $this->sale($branch, $variant, '2025-01-01 00:00:00', 2, 2500);
+        $this->sale($branch, $variant, '2026-11-15 23:59:59', 1, 3000);
+        $this->refund($sale, 1000, '2026-11-15 00:00:00');
+
+        $this->actingAs($user)->get(route('reports.index', [$team, 'view' => 'charts', 'from' => '2025-01-01', 'to' => '2026-11-15', 'branch' => $branch->id]))
+            ->assertInertia(fn (Assert $page) => $page->where('filters.view', 'charts')
+                ->where('chartTrend.0.from', '2025-01-01')
+                ->where('chartTrend', fn ($points) => count($points) <= 90
+                    && collect($points)->sum('sales_cents') === 8000
+                    && collect($points)->sum('refunds_cents') === 1000
+                    && collect($points)->sum('net_cents') === 7000
+                    && collect($points)->last()['to'] === '2026-11-15'));
+    }
+
+    public function test_charts_handle_a_single_empty_day_and_stock_beyond_the_first_page(): void
+    {
+        [$user, $team] = $this->member();
+        $branch = Branch::factory()->for($team)->create();
+        $product = Product::factory()->for($team)->create();
+        ProductVariant::factory()->for($product)->count(25)->create();
+        $last = ProductVariant::factory()->for($product)->create();
+        Stock::factory()->create(['team_id' => $team->id, 'branch_id' => $branch->id, 'product_variant_id' => $last->id, 'quantity' => 42]);
+
+        $this->actingAs($user)->get(route('reports.index', [$team, 'view' => 'charts', 'from' => '2026-11-15', 'to' => '2026-11-15']))
+            ->assertInertia(fn (Assert $page) => $page->has('inventory.data', 24)->has('chartTrend', 1)
+                ->where('chartTrend.0.from', '2026-11-15')->where('chartTrend.0.to', '2026-11-15')
+                ->where('chartTrend.0.sales_cents', 0)->where('chartTrend.0.refunds_cents', 0)
+                ->where('stockByBranch.0.units', fn ($units) => (int) $units === 42)
+                ->where('stockByBranch.0.variants', fn ($count) => (int) $count === 26));
+    }
+
     public function test_filters_validate_dates_types_and_foreign_branches_before_exporting(): void
     {
         [$user, $team] = $this->member();
@@ -192,6 +233,7 @@ class ReportTest extends TestCase
         $this->get(route('reports.export', [$team, 'from' => '2026-11-10', 'to' => '2026-11-01']))->assertSessionHasErrors('to');
         $this->get(route('reports.index', [$team, 'from' => 'invalid']))->assertSessionHasErrors('from');
         $this->get(route('reports.export', [$team, 'type' => 'unknown']))->assertSessionHasErrors('type');
+        $this->get(route('reports.index', [$team, 'view' => 'unknown']))->assertSessionHasErrors('view');
     }
 
     /** @return array{User, Team} */

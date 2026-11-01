@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\BuildStoreReports;
 use App\Http\Requests\BrowseReportsRequest;
 use App\Models\Team;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -20,6 +21,13 @@ class ReportController extends Controller
         $dailySales = $reports->sales($currentTeam, $from, $to, $branchId)->toBase()
             ->selectRaw('DATE(completed_at) AS date, COUNT(*) AS orders, SUM(total_cents) AS amount_cents')
             ->groupByRaw('DATE(completed_at)')->orderBy('date')->get();
+        $dailyRefunds = $reports->returns($currentTeam, $from, $to, $branchId)->toBase()
+            ->selectRaw('DATE(created_at) AS date, SUM(amount_cents) AS amount_cents')
+            ->groupByRaw('DATE(created_at)')->orderBy('date')->get();
+        $stockByBranch = DB::query()->fromSub($reports->inventory($currentTeam, $branchId)
+            ->when($stock === 'empty', fn ($query) => $query->whereRaw('COALESCE(stocks.quantity, 0) = 0')), 'inventory')
+            ->select(['branch_id', 'branch'])->selectRaw('SUM(quantity) AS units, COUNT(*) AS variants, SUM(CASE WHEN quantity = 0 THEN 1 ELSE 0 END) AS empty_count')
+            ->groupBy('branch_id', 'branch')->orderBy('branch')->get();
         $inventory = $reports->inventory($currentTeam, $branchId)
             ->when($stock === 'empty', fn ($query) => $query->whereRaw('COALESCE(stocks.quantity, 0) = 0'))
             ->orderBy('branches.name')->orderBy('products.name')->orderBy('product_variants.id')->orderBy('branches.id')
@@ -28,10 +36,12 @@ class ReportController extends Controller
         return Inertia::render('reports/index', [
             'summary' => $reports->summary($currentTeam, $from, $to, $branchId),
             'dailySales' => $dailySales,
+            'chartTrend' => $reports->trend($from, $to, $dailySales, $dailyRefunds),
+            'stockByBranch' => $stockByBranch,
             'topProducts' => $reports->topProducts($currentTeam, $from, $to, $branchId)->limit(10)->get(),
             'inventory' => $inventory,
             'branches' => $currentTeam->branches()->orderBy('name')->get(['id', 'name', 'is_active']),
-            'filters' => ['from' => $from, 'to' => $to, 'branch' => $branchId ?: '', 'stock' => $stock],
+            'filters' => ['from' => $from, 'to' => $to, 'branch' => $branchId ?: '', 'stock' => $stock, 'view' => $request->input('view') ?: 'details'],
         ]);
     }
 
