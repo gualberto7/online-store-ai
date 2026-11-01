@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import {
     BookOpen,
+    ChartColumn,
     Tags,
     FolderGit2,
     LayoutGrid,
@@ -22,6 +23,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { index as reportsIndex } from '@/routes/reports';
 import { dashboard, home } from '@/routes';
 import { index as branchesIndex } from '@/routes/branches';
 import { index as productsIndex } from '@/routes/products';
@@ -44,6 +46,16 @@ export function AppSidebar() {
     ];
 
     if (page.props.currentTeam) {
+        if (
+            !page.props.currentTeam.isPersonal &&
+            ['owner', 'admin'].includes(page.props.currentTeam.role ?? '')
+        ) {
+            mainNavItems.push({
+                title: 'Reportes',
+                href: reportsIndex(page.props.currentTeam.slug),
+                icon: ChartColumn,
+            });
+        }
         mainNavItems.push({
             title: 'Categorías',
             href: categoriesIndex(page.props.currentTeam.slug),

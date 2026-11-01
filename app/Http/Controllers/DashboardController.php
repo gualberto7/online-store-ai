@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\BuildStoreReports;
+use App\Models\Team;
 use App\Models\TeamInvitation;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -9,7 +11,7 @@ use Inertia\Response;
 
 class DashboardController extends Controller
 {
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request, Team $currentTeam, BuildStoreReports $reports): Response
     {
         $email = strtolower($request->user()->email);
 
@@ -31,7 +33,11 @@ class DashboardController extends Controller
                 ],
             ]);
 
+        $canViewReports = $request->user()->can('viewReports', $currentTeam);
+
         return Inertia::render('dashboard', [
+            'reportSummary' => $canViewReports ? $reports->summary($currentTeam, now()->startOfMonth()->toDateString(), now()->toDateString()) : null,
+            'reportPeriod' => ['from' => now()->startOfMonth()->toDateString(), 'to' => now()->toDateString()],
             'pendingInvitations' => $pendingInvitations,
         ]);
     }

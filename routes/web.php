@@ -12,6 +12,7 @@ use App\Http\Controllers\OrderReturnController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductVariantController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StorefrontCartController;
 use App\Http\Controllers\StorefrontCheckoutController;
 use App\Http\Controllers\StorefrontController;
@@ -32,6 +33,8 @@ Route::get('compra/{token}', [StorefrontCheckoutController::class, 'show'])->whe
 Route::prefix('{current_team}')
     ->middleware(['auth', 'verified', EnsureTeamMembership::class])
     ->group(function () {
+        Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+        Route::get('reports/export', [ReportController::class, 'download'])->name('reports.export');
         Route::get('dashboard', DashboardController::class)->name('dashboard');
         Route::resource('orders', OrderController::class)->only(['index', 'create', 'store', 'show'])->scoped();
         Route::post('orders/{order}/returns', [OrderReturnController::class, 'store'])->name('orders.returns.store')->scopeBindings();

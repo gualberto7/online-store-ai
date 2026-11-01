@@ -3,11 +3,17 @@
 namespace App\Policies;
 
 use App\Enums\TeamPermission;
+use App\Enums\TeamRole;
 use App\Models\Team;
 use App\Models\User;
 
 class TeamPolicy
 {
+    public function viewReports(User $user, Team $team): bool
+    {
+        return ! $team->is_personal && ($user->teamRole($team)?->isAtLeast(TeamRole::Admin) ?? false);
+    }
+
     /**
      * Determine whether the user can view any models.
      */
