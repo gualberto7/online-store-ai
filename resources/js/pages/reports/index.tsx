@@ -1,6 +1,7 @@
 import { Form, Head, Link, usePage } from '@inertiajs/react';
-import { Download, ChartColumn, Table2 } from 'lucide-react';
+import { Download, ChartColumn, Table2, Sparkles } from 'lucide-react';
 import InputError from '@/components/input-error';
+import ReportAssistant from '@/components/report-assistant';
 import ReportCharts, {
     type TrendPoint,
     type BranchStock,
@@ -19,7 +20,7 @@ type Filters = {
     to: string;
     branch: number | '';
     stock: string;
-    view: 'details' | 'charts';
+    view: 'details' | 'charts' | 'ai';
 };
 type InventoryRow = {
     branch_id: number;
@@ -31,6 +32,7 @@ type InventoryRow = {
     quantity: number;
 };
 type Props = {
+    aiAvailable: boolean;
     summary: ReportSummary;
     chartTrend: TrendPoint[];
     stockByBranch: BranchStock[];
@@ -61,6 +63,7 @@ const selectClass =
 const cellClass = 'px-4 py-3 text-left';
 
 export default function ReportsIndex({
+    aiAvailable,
     summary,
     chartTrend,
     stockByBranch,
@@ -90,7 +93,7 @@ export default function ReportsIndex({
                 </header>
                 <nav
                     aria-label="Vistas de reportes"
-                    className="flex w-fit gap-1 rounded-lg border bg-muted p-1"
+                    className="flex w-fit max-w-full flex-wrap gap-1 rounded-lg border bg-muted p-1"
                 >
                     <Button
                         variant={
@@ -131,6 +134,23 @@ export default function ReportsIndex({
                                 aria-hidden="true"
                             />
                             Gráficas
+                        </Link>
+                    </Button>
+                    <Button
+                        variant={filters.view === 'ai' ? 'default' : 'ghost'}
+                        asChild
+                    >
+                        <Link
+                            href={index(currentTeam.slug, {
+                                query: { ...filters, view: 'ai' },
+                            })}
+                            aria-current={
+                                filters.view === 'ai' ? 'page' : undefined
+                            }
+                            preserveScroll
+                        >
+                            <Sparkles className="size-4" aria-hidden="true" />
+                            Consultar con IA
                         </Link>
                     </Button>
                 </nav>
@@ -269,7 +289,14 @@ export default function ReportsIndex({
                         ))}
                     </div>
                 </section>
-                {filters.view === 'charts' ? (
+                {filters.view === 'ai' ? (
+                    <ReportAssistant
+                        key={`${currentTeam.id}-${JSON.stringify(filters)}`}
+                        team={currentTeam.slug}
+                        filters={filters}
+                        available={aiAvailable}
+                    />
+                ) : filters.view === 'charts' ? (
                     <ReportCharts
                         trend={chartTrend}
                         products={topProducts}

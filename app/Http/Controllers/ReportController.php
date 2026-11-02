@@ -34,6 +34,7 @@ class ReportController extends Controller
             ->paginate(24)->withQueryString();
 
         return Inertia::render('reports/index', [
+            'aiAvailable' => (bool) config('reports-ai.enabled') && filled(config('ai.providers.'.config('reports-ai.provider').'.key')),
             'summary' => $reports->summary($currentTeam, $from, $to, $branchId),
             'dailySales' => $dailySales,
             'chartTrend' => $reports->trend($from, $to, $dailySales, $dailyRefunds),

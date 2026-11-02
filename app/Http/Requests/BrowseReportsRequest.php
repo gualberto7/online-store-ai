@@ -29,7 +29,7 @@ class BrowseReportsRequest extends FormRequest
             'from' => ['required', 'date_format:Y-m-d'],
             'to' => ['required', 'date_format:Y-m-d', 'after_or_equal:from'],
             'branch' => ['nullable', 'integer', Rule::exists('branches', 'id')->where('team_id', $team instanceof Team ? $team->id : 0)],
-            'view' => ['nullable', Rule::in(['details', 'charts'])],
+            'view' => ['nullable', Rule::in(['details', 'charts', 'ai'])],
             'stock' => ['nullable', Rule::in(['all', 'empty'])],
             'page' => ['nullable', 'integer', 'min:1', 'max:100000'],
             'type' => ['nullable', Rule::in(['sales', 'returns', 'inventory', 'products'])],

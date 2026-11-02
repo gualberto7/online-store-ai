@@ -12,6 +12,7 @@ use App\Http\Controllers\OrderReturnController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductVariantController;
+use App\Http\Controllers\ReportAssistantController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StorefrontCartController;
 use App\Http\Controllers\StorefrontCheckoutController;
@@ -34,6 +35,7 @@ Route::prefix('{current_team}')
     ->middleware(['auth', 'verified', EnsureTeamMembership::class])
     ->group(function () {
         Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+        Route::post('reports/ai', ReportAssistantController::class)->name('reports.ai')->middleware('throttle:5,1');
         Route::get('reports/export', [ReportController::class, 'download'])->name('reports.export');
         Route::get('dashboard', DashboardController::class)->name('dashboard');
         Route::resource('orders', OrderController::class)->only(['index', 'create', 'store', 'show'])->scoped();
