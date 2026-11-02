@@ -20,16 +20,19 @@ class SearchCatalogSemantically
     }
 
     /** @return array{ids: list<int>, fallback: bool} */
-    public function handle(Team $team, string $search, int $categoryId, int $branchId, bool $availableOnly, ?ProductAudience $audience = null): array
+    public function handle(Team $team, string $search, int $categoryId, int $branchId, bool $availableOnly, ?ProductAudience $audience = null, ?CatalogPriceFilter $priceFilter = null): array
     {
         if (! $this->available()) {
             return ['ids' => [], 'fallback' => true];
         }
+        $priceFilter ??= new CatalogPriceFilter;
         $query = Product::query()->where('team_id', $team->id)->publiclyVisible()
             ->when($audience, fn ($query) => $query->whereIn('audience', array_unique([$audience->value, ProductAudience::Unisex->value])))
+            ->when($priceFilter->constraints !== [], fn ($query) => $query->whereHas('variants', fn ($query) => $query->where('is_active', true)->where(fn ($query) => $priceFilter->apply($query))))
             ->whereNotNull('search_embedding')->where('search_embedding_profile', $this->embeddings->profile())
             ->when($categoryId, fn ($query) => $query->where('category_id', $categoryId))
             ->when($availableOnly, fn ($query) => $query->whereHas('variants', fn ($query) => $query->where('is_active', true)
+                ->where(fn ($query) => $priceFilter->apply($query))
                 ->whereHas('stocks', fn ($query) => $query->where('quantity', '>', 0)
                     ->whereHas('branch', fn ($query) => $query->where('is_active', true))
                     ->when($branchId, fn ($query) => $query->where('branch_id', $branchId)))));

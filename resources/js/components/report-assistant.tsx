@@ -282,9 +282,8 @@ export default function ReportAssistant({
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">
                     Pregunta por ventas, clientes, variantes, devoluciones o
-                    inventario. Usaremos los filtros aplicados, salvo que
-                    indiques otro período o sucursal. Cada pregunta es
-                    independiente.
+                    inventario. Indica en tu pregunta el período y la sucursal
+                    que quieres consultar. Cada pregunta es independiente.
                 </p>
                 {!available && (
                     <p

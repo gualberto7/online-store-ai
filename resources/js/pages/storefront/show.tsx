@@ -7,6 +7,7 @@ import { buttonClass, fieldClass } from './cart';
 
 type Props = {
     storefront: { name: string };
+    matchingVariantId?: number | null;
     catalogFilters: Record<string, string | number | boolean | null>;
     product: {
         id: number;
@@ -30,8 +31,11 @@ export default function StorefrontShow({
     product,
     branches,
     catalogFilters,
+    matchingVariantId,
 }: Props) {
-    const [variantId, setVariantId] = useState(product.variants[0]?.id);
+    const [variantId, setVariantId] = useState(
+        matchingVariantId ?? product.variants[0]?.id,
+    );
     const [imageId, setImageId] = useState(product.images[0]?.id);
     const selectedVariant =
         product.variants.find((variant) => variant.id === variantId) ??

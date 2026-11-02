@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CatalogPriceFilter;
 use App\Actions\SearchCatalogSemantically;
 use App\Actions\StorefrontCart;
 use App\Enums\ProductAudience;
@@ -26,10 +27,12 @@ class StorefrontController extends Controller
         $branchId = $request->integer('branch');
         $aiQuery = $request->string('ai_query')->trim()->toString();
         $audience = $request->filled('audience') ? ProductAudience::from($request->string('audience')->toString()) : ProductAudience::fromQuery($aiQuery);
-        $semantic = $aiQuery !== '';
+        $priceFilter = CatalogPriceFilter::fromQuery($aiQuery);
+        $semanticQuery = $priceFilter->search;
+        $semantic = $aiQuery !== '' && $semanticQuery !== '';
         $sort = $request->input('sort') ?: ($semantic ? 'relevance' : 'name');
         $semanticResult = $semantic && $team !== null
-            ? $semanticSearch->handle($team, $aiQuery, $categoryId, $branchId, $request->boolean('available'), $audience)
+            ? $semanticSearch->handle($team, $semanticQuery, $categoryId, $branchId, $request->boolean('available'), $audience, $priceFilter)
             : ['ids' => [], 'fallback' => false];
         $semanticIds = $semanticResult['ids'];
         if ($semantic) {
@@ -37,7 +40,11 @@ class StorefrontController extends Controller
             $semanticIds = array_values(array_unique([...$exactIds, ...$semanticIds]));
         }
 
-        $availableVariants = fn ($query) => $query->where('is_active', true)
+        $matchingVariants = function ($query) use ($priceFilter): void {
+            $query->where('is_active', true);
+            $priceFilter->apply($query);
+        };
+        $availableVariants = fn ($query) => $query->where($matchingVariants)
             ->whereHas('stocks', fn ($query) => $query->where('quantity', '>', 0)
                 ->whereHas('branch', fn ($query) => $query->where('is_active', true))
                 ->when($branchId, fn ($query) => $query->where('branch_id', $branchId)));
@@ -45,7 +52,8 @@ class StorefrontController extends Controller
         $products = Product::query()->select(['id', 'name', 'category_id'])->where('team_id', $team->id ?? 0)->publiclyVisible()
             ->when($audience, fn ($query) => $query->whereIn('audience', array_unique([$audience->value, ProductAudience::Unisex->value])))
             ->with(['category:id,name', 'images' => fn ($query) => $query->limit(1)])
-            ->withMin(['variants as starting_price' => fn ($query) => $query->where('is_active', true)], 'price')
+            ->when($priceFilter->constraints !== [], fn ($query) => $query->whereHas('variants', $matchingVariants))
+            ->withMin(['variants as starting_price' => $matchingVariants], 'price')
             ->withExists(['variants as available' => $availableVariants])
             ->withCasts(['starting_price' => 'decimal:2', 'available' => 'boolean'])
             ->when($categoryId, fn ($query) => $query->where('category_id', $categoryId))
@@ -53,8 +61,8 @@ class StorefrontController extends Controller
                 ->whereLike('name', "%{$search}%")->orWhereLike('description', "%{$search}%")
                 ->orWhereHas('variants', fn ($query) => $query->where('is_active', true)->whereLike('sku', "%{$search}%"))))
             ->when($semantic, fn ($query) => $query->where(fn ($query) => $query
-                ->whereLike('name', "%{$aiQuery}%")->orWhereLike('description', "%{$aiQuery}%")
-                ->orWhereHas('variants', fn ($query) => $query->where('is_active', true)->whereLike('sku', "%{$aiQuery}%"))
+                ->whereLike('name', "%{$semanticQuery}%")->orWhereLike('description', "%{$semanticQuery}%")
+                ->orWhereHas('variants', fn ($query) => $query->where('is_active', true)->whereLike('sku', "%{$semanticQuery}%"))
                 ->when($semanticIds !== [], fn ($query) => $query->orWhereIn('id', $semanticIds))))
             ->when($request->boolean('available'), fn ($query) => $query->whereHas('variants', $availableVariants))
             ->when($sort === 'relevance' && $semanticIds !== [], function ($query) use ($semanticIds): void {
@@ -80,7 +88,7 @@ class StorefrontController extends Controller
 
         return Inertia::render('storefront/index', [
             'storefront' => ['name' => config('storefront.name')],
-            'semanticSearch' => ['available' => $semanticSearch->available(), 'fallback' => $semanticResult['fallback']],
+            'semanticSearch' => ['available' => $semanticSearch->available(), 'fallback' => $semanticResult['fallback'], 'price_filter' => $priceFilter->label()],
             'products' => $products,
             'categories' => $team?->categories()->where('is_active', true)->orderBy('name')->get(['id', 'name']) ?? [],
             'branches' => $team?->branches()->where('is_active', true)->orderBy('name')->get(['id', 'name', 'address']) ?? [],
@@ -93,12 +101,18 @@ class StorefrontController extends Controller
         $team = $this->storeTeam();
         abort_unless($team !== null, 404);
         $product = Product::query()->where('team_id', $team->id)->publiclyVisible()->whereKey($product->id)->firstOrFail();
+        $priceFilter = CatalogPriceFilter::fromQuery($request->string('ai_query')->toString());
         $product->load(['category:id,name', 'images', 'variants' => fn ($query) => $query->where('is_active', true)->orderBy('name'),
             'variants.stocks' => fn ($query) => $query->where('quantity', '>', 0)->whereHas('branch', fn ($query) => $query->where('is_active', true)),
         ]);
 
         return Inertia::render('storefront/show', [
             'catalogFilters' => $request->validated(),
+            'matchingVariantId' => $product->variants()->where('is_active', true)->where(fn ($query) => $priceFilter->apply($query))
+                ->when($request->boolean('available'), fn ($query) => $query->whereHas('stocks', fn ($query) => $query->where('quantity', '>', 0)
+                    ->whereHas('branch', fn ($query) => $query->where('is_active', true))
+                    ->when($request->integer('branch'), fn ($query) => $query->where('branch_id', $request->integer('branch')))))
+                ->orderBy('name')->value('id'),
             'storefront' => ['name' => config('storefront.name')],
             'product' => [
                 'id' => $product->id, 'name' => $product->name, 'description' => $product->description,

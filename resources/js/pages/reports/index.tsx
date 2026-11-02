@@ -154,141 +154,159 @@ export default function ReportsIndex({
                         </Link>
                     </Button>
                 </nav>
-                <Form
-                    key={JSON.stringify(filters)}
-                    {...index.form(currentTeam.slug)}
-                    className="grid gap-4 rounded-xl border p-5"
-                >
-                    {({ errors, processing }) => (
-                        <>
-                            <input
-                                type="hidden"
-                                name="view"
-                                value={filters.view}
-                            />
-                            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                                <div className="grid gap-2">
-                                    <Label htmlFor="from">Desde</Label>
-                                    <Input
-                                        id="from"
-                                        name="from"
-                                        type="date"
-                                        defaultValue={filters.from}
-                                        required
+                {filters.view !== 'ai' && (
+                    <>
+                        <Form
+                            key={JSON.stringify(filters)}
+                            {...index.form(currentTeam.slug)}
+                            className="grid gap-4 rounded-xl border p-5"
+                        >
+                            {({ errors, processing }) => (
+                                <>
+                                    <input
+                                        type="hidden"
+                                        name="view"
+                                        value={filters.view}
                                     />
-                                    <InputError message={errors.from} />
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="to">Hasta</Label>
-                                    <Input
-                                        id="to"
-                                        name="to"
-                                        type="date"
-                                        defaultValue={filters.to}
-                                        required
-                                    />
-                                    <InputError message={errors.to} />
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="branch">Sucursal</Label>
-                                    <select
-                                        id="branch"
-                                        name="branch"
-                                        defaultValue={filters.branch}
-                                        className={selectClass}
-                                    >
-                                        <option value="">
-                                            Todas las sucursales
-                                        </option>
-                                        {branches.map((branch) => (
-                                            <option
-                                                key={branch.id}
-                                                value={branch.id}
+                                    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="from">Desde</Label>
+                                            <Input
+                                                id="from"
+                                                name="from"
+                                                type="date"
+                                                defaultValue={filters.from}
+                                                required
+                                            />
+                                            <InputError message={errors.from} />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="to">Hasta</Label>
+                                            <Input
+                                                id="to"
+                                                name="to"
+                                                type="date"
+                                                defaultValue={filters.to}
+                                                required
+                                            />
+                                            <InputError message={errors.to} />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="branch">
+                                                Sucursal
+                                            </Label>
+                                            <select
+                                                id="branch"
+                                                name="branch"
+                                                defaultValue={filters.branch}
+                                                className={selectClass}
                                             >
-                                                {branch.name}
-                                                {branch.is_active
-                                                    ? ''
-                                                    : ' (inactiva)'}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <InputError message={errors.branch} />
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="stock">Inventario</Label>
-                                    <select
-                                        id="stock"
-                                        name="stock"
-                                        defaultValue={filters.stock}
-                                        className={selectClass}
-                                    >
-                                        <option value="all">
-                                            Todas las existencias
-                                        </option>
-                                        <option value="empty">
-                                            Solo sin existencias
-                                        </option>
-                                    </select>
-                                    <InputError message={errors.stock} />
-                                </div>
-                            </div>
+                                                <option value="">
+                                                    Todas las sucursales
+                                                </option>
+                                                {branches.map((branch) => (
+                                                    <option
+                                                        key={branch.id}
+                                                        value={branch.id}
+                                                    >
+                                                        {branch.name}
+                                                        {branch.is_active
+                                                            ? ''
+                                                            : ' (inactiva)'}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <InputError
+                                                message={errors.branch}
+                                            />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="stock">
+                                                Inventario
+                                            </Label>
+                                            <select
+                                                id="stock"
+                                                name="stock"
+                                                defaultValue={filters.stock}
+                                                className={selectClass}
+                                            >
+                                                <option value="all">
+                                                    Todas las existencias
+                                                </option>
+                                                <option value="empty">
+                                                    Solo sin existencias
+                                                </option>
+                                            </select>
+                                            <InputError
+                                                message={errors.stock}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-wrap gap-3">
+                                        <Button disabled={processing}>
+                                            {processing
+                                                ? 'Consultando…'
+                                                : 'Aplicar filtros'}
+                                        </Button>
+                                        <Button variant="outline" asChild>
+                                            <Link
+                                                href={index(currentTeam.slug, {
+                                                    query: {
+                                                        view: filters.view,
+                                                    },
+                                                })}
+                                            >
+                                                Este mes
+                                            </Link>
+                                        </Button>
+                                    </div>
+                                </>
+                            )}
+                        </Form>
+                        <p className="text-sm text-muted-foreground">
+                            Período: {filters.from} al {filters.to}, ambas
+                            fechas incluidas. Ventas según fecha de entrega;
+                            devoluciones según fecha del reembolso. El neto
+                            puede ser negativo si se reembolsan ventas de
+                            períodos anteriores. No representa utilidad.
+                        </p>
+                        <ReportSummaryCards summary={summary} />
+                        <section
+                            className="grid gap-3 rounded-xl border p-5"
+                            aria-labelledby="exports-title"
+                        >
+                            <h2 id="exports-title" className="font-semibold">
+                                Exportar CSV
+                            </h2>
+                            <p className="text-sm text-muted-foreground">
+                                Descarga todos los registros de los filtros
+                                aplicados, incluidas las páginas no visibles.
+                            </p>
                             <div className="flex flex-wrap gap-3">
-                                <Button disabled={processing}>
-                                    {processing
-                                        ? 'Consultando…'
-                                        : 'Aplicar filtros'}
-                                </Button>
-                                <Button variant="outline" asChild>
-                                    <Link
-                                        href={index(currentTeam.slug, {
-                                            query: { view: filters.view },
-                                        })}
+                                {[
+                                    ['sales', 'Ventas'],
+                                    ['returns', 'Devoluciones'],
+                                    ['products', 'Productos vendidos'],
+                                    ['inventory', 'Inventario actual'],
+                                ].map(([type, title]) => (
+                                    <Button
+                                        key={type}
+                                        variant="outline"
+                                        asChild
                                     >
-                                        Este mes
-                                    </Link>
-                                </Button>
+                                        <a href={csv(type)}>
+                                            <Download
+                                                className="size-4"
+                                                aria-hidden="true"
+                                            />
+                                            {title}
+                                        </a>
+                                    </Button>
+                                ))}
                             </div>
-                        </>
-                    )}
-                </Form>
-                <p className="text-sm text-muted-foreground">
-                    Período: {filters.from} al {filters.to}, ambas fechas
-                    incluidas. Ventas según fecha de entrega; devoluciones según
-                    fecha del reembolso. El neto puede ser negativo si se
-                    reembolsan ventas de períodos anteriores. No representa
-                    utilidad.
-                </p>
-                <ReportSummaryCards summary={summary} />
-                <section
-                    className="grid gap-3 rounded-xl border p-5"
-                    aria-labelledby="exports-title"
-                >
-                    <h2 id="exports-title" className="font-semibold">
-                        Exportar CSV
-                    </h2>
-                    <p className="text-sm text-muted-foreground">
-                        Descarga todos los registros de los filtros aplicados,
-                        incluidas las páginas no visibles.
-                    </p>
-                    <div className="flex flex-wrap gap-3">
-                        {[
-                            ['sales', 'Ventas'],
-                            ['returns', 'Devoluciones'],
-                            ['products', 'Productos vendidos'],
-                            ['inventory', 'Inventario actual'],
-                        ].map(([type, title]) => (
-                            <Button key={type} variant="outline" asChild>
-                                <a href={csv(type)}>
-                                    <Download
-                                        className="size-4"
-                                        aria-hidden="true"
-                                    />
-                                    {title}
-                                </a>
-                            </Button>
-                        ))}
-                    </div>
-                </section>
+                        </section>
+                    </>
+                )}
                 {filters.view === 'ai' ? (
                     <ReportAssistant
                         key={`${currentTeam.id}-${JSON.stringify(filters)}`}

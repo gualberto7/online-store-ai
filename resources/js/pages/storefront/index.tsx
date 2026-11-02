@@ -40,7 +40,11 @@ type Props = {
     categories: { id: number; name: string }[];
     branches: { id: number; name: string; address: string }[];
     filters: Filters;
-    semanticSearch: { available: boolean; fallback: boolean };
+    semanticSearch: {
+        available: boolean;
+        fallback: boolean;
+        price_filter: string | null;
+    };
 };
 const money = (value: string) =>
     `${Number(value).toLocaleString('es-BO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Bs`;
@@ -309,6 +313,7 @@ export default function StorefrontIndex({
                         key={`ai-${JSON.stringify(filters)}`}
                         filters={filters}
                         fallback={semanticSearch.fallback}
+                        priceFilter={semanticSearch.price_filter}
                     />
                 )}
                 {products.data.length === 0 ? (

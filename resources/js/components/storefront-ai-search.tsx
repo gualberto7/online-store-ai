@@ -22,9 +22,11 @@ type Filters = {
 export default function StorefrontAiSearch({
     filters,
     fallback,
+    priceFilter,
 }: {
     filters: Filters;
     fallback: boolean;
+    priceFilter?: string | null;
 }) {
     const [open, setOpen] = useState(Boolean(filters.ai_query));
     const [description, setDescription] = useState(filters.ai_query);
@@ -151,6 +153,16 @@ export default function StorefrontAiSearch({
                                     className="text-sm text-red-700"
                                 >
                                     {Object.values(errors)[0]}
+                                </p>
+                            )}
+                            {priceFilter && (
+                                <p
+                                    role="status"
+                                    className="text-sm font-medium text-teal-950"
+                                >
+                                    Presupuesto aplicado: {priceFilter}. Los
+                                    precios mostrados corresponden a variantes
+                                    que cumplen este presupuesto.
                                 </p>
                             )}
                             {fallback && (
